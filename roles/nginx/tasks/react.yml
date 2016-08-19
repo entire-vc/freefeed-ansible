@@ -60,19 +60,6 @@
     regexp: "publicDSN.*"
     replace: "publicDSN: '{{ sentry_dsn }}',"
 
-- name: Read bookmarklet.min.js from Ember client
-  shell: cat /var/www/pepyatka-html/public/js/bookmarklet.min.js
-  register: bookmarklet_min_js_content
-  changed_when: false
-  ignore_errors: yes
-
-- name: Populate BOOKMARKLET_PLACEHOLDER
-  replace:
-    dest: /var/www/freefeed-react-client/src/components/sidebar.jsx
-    regexp: "BOOKMARKLET_PLACEHOLDER"
-    replace: "{{ bookmarklet_min_js_content.stdout }}"
-  ignore_errors: yes
-
 - name: Install webpack globally
   npm: name=webpack state=latest global=yes
 
@@ -83,6 +70,35 @@
 - name: Install freefeed-react-client dependencies
   npm: path=/var/www/freefeed-react-client state=latest
 
+- name: Update server url in bookmarklet*.js
+  replace:
+    dest: "/var/www/freefeed-react-client/assets/js/{{ item }}"
+    regexp: "http://localhost:3333"
+    replace: "{{ pepyatka_frontend_scheme }}://{{ pepyatka_hostname }}"
+  with_items:
+    - bookmarklet.js
+    - bookmarklet.min.js
+  tags:
+    - pepyatka
+    - nginx
+
+- name: Replace host in bookmarklet-popup.js
+  replace:
+    dest: /var/www/freefeed-react-client/assets/js/bookmarklet-popup.js
+    regexp: "\\+ host \\+"
+    replace: "+ '{{ pepyatka_frontend_scheme }}://{{ pepyatka_hostname }}' +"
+
+- name: Read bookmarklet.min.js
+  shell: cat /var/www/freefeed-react-client/assets/js/bookmarklet.min.js
+  register: bookmarklet_min_js_content
+  changed_when: false
+
+- name: Populate BOOKMARKLET_PLACEHOLDER
+  replace:
+    dest: /var/www/freefeed-react-client/src/components/sidebar.jsx
+    regexp: "BOOKMARKLET_PLACEHOLDER"
+    replace: "{{ bookmarklet_min_js_content.stdout }}"
+
 - name: Build assets
   command: make prod out_dir=/var/www/freefeed-react-client/public
   args:
@@ -91,17 +107,8 @@
 - name: Ensure /var/www/freefeed-react-client/public/js
   file: path=/var/www/freefeed-react-client/public/js state=directory
 
-- name: Copy bookmarklet-popup.js from Ember client
-  command: cp /var/www/pepyatka-html/public/js/bookmarklet-popup.js /var/www/freefeed-react-client/public/js/
-  register: bookmarklet_popup_js
-  ignore_errors: yes
-
-- name: Replace host in bookmarklet-popup.js
-  replace:
-    dest: /var/www/freefeed-react-client/public/js/bookmarklet-popup.js
-    regexp: "\\+ host \\+"
-    replace: "+ '{{ pepyatka_frontend_scheme }}://{{ pepyatka_html_hostname }}' +"
-  when: bookmarklet_popup_js | success
+- name: Copy bookmarklet-popup.js to the legacy location
+  command: cp /var/www/freefeed-react-client/public/assets/js/bookmarklet-popup.js /var/www/freefeed-react-client/public/js/
 
 - name: Fix freefeed-react-client permissions
   file:
