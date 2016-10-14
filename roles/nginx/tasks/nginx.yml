@@ -1,0 +1,87 @@
+---
+# file: nginx/tasks/main.yml
+
+- name: Add apt key for the nginx repository
+  become: yes
+  apt_key: url="http://nginx.org/keys/nginx_signing.key" state=present
+
+- name: Add nginx apt repository
+  become: yes
+  apt_repository: repo="deb http://nginx.org/packages/debian/ {{ ansible_lsb.codename }} nginx"
+
+- name: Install nginx
+  become: yes
+  apt: name=nginx state=present update_cache=yes force=yes
+
+- name: Deploy custom logrotate config for nginx
+  become: yes
+  copy: src=logrotate_d_nginx dest=/etc/logrotate.d/nginx
+
+- name: Ensure /etc/nginx/ssl
+  become: yes
+  file: path=/etc/nginx/ssl state=directory
+
+- name: Deploy server certificate
+  become: yes
+  copy:
+    content="{{ server_cert }}"
+    dest=/etc/nginx/ssl/api.pepyatka.crt
+    mode=0600
+  when: server_cert is defined
+
+- name: Deploy server certificate key
+  become: yes
+  copy:
+    content="{{ server_cert_key }}"
+    dest=/etc/nginx/ssl/api.pepyatka.key
+    mode=0600
+  when: server_cert_key is defined
+
+- name: Ensure nginx has access to pepyatka files
+  become: yes
+  file:
+    path: "{{ pepyatka_files_dir }}"
+    group: "{{ www_group }}"
+    state: directory
+    recurse: yes
+    mode: 0775
+
+- name: Deploy nginx config
+  become: yes
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  tags:
+    - nginx-config
+
+- name: Deploy nginx common config
+  become: yes
+  template: src=pepyatka-common.conf.j2 dest=/etc/nginx/pepyatka-common.conf
+  tags:
+    - nginx-config
+
+- name: Deploy nginx ssl config
+  become: yes
+  template: src=pepyatka-ssl.conf.j2 dest=/etc/nginx/pepyatka-ssl.conf
+  tags:
+    - nginx-config
+
+- name: Deploy dhparams.pem
+  become: yes
+  copy: content="{{ nginx_ssl_dhparam }}" dest=/etc/ssl/dhparams.pem
+  when: nginx_ssl_dhparam is defined
+  tags:
+    - nginx-config
+
+- name: Start and enable nginx
+  become: yes
+  service: name=nginx state=started enabled=yes
+
+- name: Reload nginx config
+  become: yes
+  command: systemctl reload nginx
+  tags:
+    - nginx-config
+
+- name: Ensure nginx is up and running
+  become: yes
+  wait_for: host=localhost port="{{ server_cert is defined | ternary(443, 80) }}" timeout=30 state=started
+

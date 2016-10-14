@@ -71,3 +71,11 @@ route53_records:
     value: freefeed.net.
     type: CNAME
     ttl: 60
+  - name: stable-media.freefeed.net
+    value: candy.freefeed.net.
+    type: CNAME
+    ttl: 300
+  - name: unstable-media.freefeed.net
+    value: micropeppa.freefeed.net.
+    type: CNAME
+    ttl: 300
