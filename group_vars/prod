@@ -28,7 +28,7 @@ nginx_use_proxy_protocol: True
 nginx_proxy_protocol_real_ips:
   - 172.31.0.0/16
 
-auth_token_prefix: freefeed_
+auth_token_prefix: freefeedBETA_
 recaptcha_enabled: true
 recaptcha_sitekey: 6LdChhITAAAAAGzgvUPPCbg0cxJzcxFc5vlBs9u5
 
