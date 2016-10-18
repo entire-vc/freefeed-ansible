@@ -42,15 +42,11 @@ check_repo() {
 }
 
 SERVER_STATUS=$(check_repo pepyatka-server {{ pepyatka_server_branch }})
+REACT_STATUS=$(check_repo react-client {{ react_client_branch }})
 {% if vanilla_enabled %}
 VANILLA_STATUS=$(check_repo vanilla {{ vanilla_branch }})
 {% else %}
 VANILLA_STATUS=
-{% endif %}
-{% if react_client_enabled %}
-REACT_STATUS=$(check_repo react-client {{ react_client_branch }})
-{% else %}
-REACT_STATUS=
 {% endif %}
 ANSIBLE_STATUS=$(check_repo pepyatka-ansible {{ pepyatka_ansible_branch }})
 

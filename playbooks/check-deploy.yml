@@ -17,19 +17,20 @@
         version: "{{ pepyatka_server_branch }}"
         force: yes
 
-    - name: Clone vanilla
-      git:
-        repo: "{{ vanilla_repo }}"
-        dest: /root/vanilla
-        version: "{{ vanilla_branch }}"
-      when: vanilla_enabled
-
     - name: Clone react-client
       git:
         repo: "{{ react_client_repo }}"
         dest: /root/react-client
         version: "{{ react_client_branch }}"
-      when: react_client_enabled
+        force: yes
+
+    - name: Clone vanilla
+      git:
+        repo: "{{ vanilla_repo }}"
+        dest: /root/vanilla
+        version: "{{ vanilla_branch }}"
+        force: yes
+      when: vanilla_enabled
 
     - name: Copy vault password file
       copy: src="{{ vault_password_file }}" dest=/root/pepyatka.vault
