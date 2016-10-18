@@ -32,3 +32,4 @@ auth_token_prefix: freefeed_
 recaptcha_enabled: true
 recaptcha_sitekey: 6LdChhITAAAAAGzgvUPPCbg0cxJzcxFc5vlBs9u5
 
+new_relic_app_name: "FreeFeed Production"

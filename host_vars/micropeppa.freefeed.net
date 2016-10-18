@@ -12,4 +12,4 @@ react_client_enabled: true
 react_client_branch: unstable
 react_client_hostname: george.freefeed.net
 auth_token_prefix: micropeppa_
-
+new_relic_app_name: "FreeFeed Unstable"
