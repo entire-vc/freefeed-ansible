@@ -38,37 +38,25 @@
       tags:
         - changelog
 
-    - name: Send pepyatka-html changelog to Slack
+    - name: Send react-client changelog to Slack
       local_action:
         module: slack
         token: "{{ slack_token }}"
-        msg: "Updated pepyatka-html on {{ item | basename }}. <{{ pepyatka_html_repo | replace('.git', '')}}/compare/{{ lookup('file', item) }}|Changelog>"
+        msg: "Updated react-client on {{ item | basename }}. <{{ react_client_repo | replace('.git', '')}}/compare/{{ lookup('file', item) }}|Changelog>"
       with_fileglob:
-        - pepyatka-html-changelog/*
-      when: slack_token is defined and pepyatka_html_enabled
+        - react-client-changelog/*
+      when: slack_token is defined
       tags:
         - changelog
 
-    - name: Send pepyatka-lite changelog to Slack
+    - name: Send vanilla changelog to Slack
       local_action:
         module: slack
         token: "{{ slack_token }}"
-        msg: "Updated pepyatka-lite on {{ item | basename }}. <{{ pepyatka_lite_repo | replace('.git', '')}}/compare/{{ lookup('file', item) }}|Changelog>"
+        msg: "Updated vanilla on {{ item | basename }}. <{{ vanilla_repo | replace('.git', '')}}/compare/{{ lookup('file', item) }}|Changelog>"
       with_fileglob:
-        - pepyatka-lite-changelog/*
-      when: slack_token is defined and pepyatka_lite_enabled
+        - vanilla-changelog/*
+      when: slack_token is defined and vanilla_enabled
       tags:
         - changelog
-
-    - name: Send freefeed-react-client changelog to Slack
-      local_action:
-        module: slack
-        token: "{{ slack_token }}"
-        msg: "Updated freefeed-react-client on {{ item | basename }}. <{{ freefeed_react_client_repo | replace('.git', '')}}/compare/{{ lookup('file', item) }}|Changelog>"
-      with_fileglob:
-        - freefeed-react-client-changelog/*
-      when: slack_token is defined and freefeed_react_client_enabled
-      tags:
-        - changelog
-
 
