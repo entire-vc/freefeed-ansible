@@ -5,8 +5,7 @@ www_group: www-data
 
 pepyatka_frontend_scheme: http
 pepyatka_server_host: localhost
-pepyatka_server_instances:
-  - 3000
+pepyatka_base_port: 3000
 pepyatka_files_dir: /var/pepyatka-files
 pepyatka_s3_bucket: ""
 pepyatka_ga_account: "UA-XXXXXX"

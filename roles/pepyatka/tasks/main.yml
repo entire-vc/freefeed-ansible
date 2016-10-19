@@ -1,7 +1,17 @@
 ---
 
+- name: Generate pepyatka ports array
+  debug:
+  with_sequence: start="{{ pepyatka_base_port }}" end="{{ pepyatka_base_port + (ansible_processor_cores | int) - 1 }}"
+  register: pepyatka_ports
+  when: pepyatka_server_instances is not defined
+
+- set_fact:
+    pepyatka_server_instances: "{{ pepyatka_ports.results | map(attribute='item') | list }}"
+  when: pepyatka_server_instances is not defined
+
 - name: Install required packages
-  apt: name={{ item }} state=present force=yes
+  apt: name="{{ item }}" state=present force=yes
   with_items:
     - graphicsmagick
     - git
