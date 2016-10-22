@@ -96,6 +96,7 @@
   with_items:
     - attachments/thumbnails
     - profilepics
+  when: pepyatka_storage_type == 'fs'
   tags:
     - pepyatka
 

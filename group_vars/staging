@@ -5,6 +5,7 @@ pepyatka_ansible_branch: development
 vanilla_branch: development
 vanilla_lead_domain: micropeppa
 pepyatka_redis_host: localhost
+pepyatka_storage_type: s3
 pepyatka_s3_bucket: freefeed-storage-test
 recaptcha_enabled: false
 postgres_port: 5432
