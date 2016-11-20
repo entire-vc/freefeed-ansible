@@ -32,6 +32,10 @@ route53_records:
     value: vonnegut.freefeed.net
     type: CNAME
     ttl: 300
+  - name: wiki.freefeed.net
+    value: vonnegut.freefeed.net
+    type: CNAME
+    ttl: 300
   - name: developer.freefeed.net
     value: freefeed.github.io.
     type: CNAME
