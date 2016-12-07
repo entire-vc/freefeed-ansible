@@ -149,3 +149,16 @@
   wait_for: host=localhost port="{{ item }}" timeout=30 state=started
   with_items: "{{ pepyatka_server_instances }}"
   tags: pepyatka
+
+- name: Setup cron job for daily stats
+  cron:
+    name="Pepyatka daily stats"
+    cron_file=pepyatka-daily-stats
+    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/count-daily-stats.js && NODE_ENV=production node_modules/.bin/babel-node bin/count-daily-stats.js || true"
+    user="{{ pepyatka_user }}"
+    minute=5
+    hour=0
+    state=present
+  tags:
+    - pepyatka
+    - pepyatka-daily-stats
