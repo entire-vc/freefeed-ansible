@@ -15,7 +15,7 @@ pepyatka_aws_access_key: "null" # Use "'value'" for non-nulls
 pepyatka_aws_secret_key: "null" # Use "'value'" for non-nulls
 pepyatka_s3_bucket: ""
 pepyatka_file_size_limit: '10mb'
-pepyatka_node_env: development
+pepyatka_node_env: production
 pepyatka_secret: 'secret'
 pepyatka_redis_host: 'localhost'
 pepyatka_redis_port: 6379
