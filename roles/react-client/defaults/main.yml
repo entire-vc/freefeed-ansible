@@ -11,7 +11,7 @@ react_client_hostname: localhost
 local_storage_whoami_cache_key: whoamiCache
 auth_cookie_domain: localhost
 auth_token_prefix: dummy_
-freefeed_recaptcha_sitekey: ""
+freefeed_recaptcha_secret: ""
 sentry_dsn: 'https://0123456789abcdef0123456789abcdef@app.getsentry.com/12345'
 frontend_scheme: http
 
