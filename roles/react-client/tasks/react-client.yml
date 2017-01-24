@@ -57,7 +57,7 @@
   replace:
     dest: "{{ react_client_dir }}/src/config.js"
     regexp: "siteKey.*"
-    replace: "siteKey: '{{ recaptcha_sitekey }}',"
+    replace: "siteKey: '{{ freefeed_recaptcha_sitekey }}',"
 
 - name: Update Sentry DSN in src/config.js
   replace:
