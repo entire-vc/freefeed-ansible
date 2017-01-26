@@ -38,8 +38,8 @@ exports.getConfig = function() {
     logResponseTime: true,
     onboardingUsername: '{{ pepyatka_onboarding_username }}',
     recaptcha: {
-      enabled: {{ freefeed_recaptcha_enabled | string | lower }},
-      secret: '{{ freefeed_recaptcha_secret }}'
+      enabled: {{ recaptcha_enabled | string | lower }},
+      secret: '{{ recaptcha_server_secret }}'
     },
 
     frontendPreferencesLimit: 65536

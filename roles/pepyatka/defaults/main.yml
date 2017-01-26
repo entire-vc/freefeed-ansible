@@ -30,8 +30,8 @@ pepyatka_mailer_from_name: 'Pepyatka'
 pepyatka_mailer_from_email: 'mail@pepyatka.com'
 pepyatka_accept_hashed_passwords_only: 'false'
 pepyatka_banlist: ""
-freefeed_recaptcha_enabled: false
-freefeed_recaptcha_secret: ""
+recaptcha_enabled: false
+recaptcha_server_secret: ""
 postgres_host: localhost
 postgres_port: 5432
 postgres_dbname: freefeed
