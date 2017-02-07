@@ -1,6 +1,7 @@
 import { {{ pepyatka_node_env }} as postgresConfig} from '../../knexfile'
 
-process.env.MONITOR_PREFIX = '{{ pepyatka_node_env }}'
+// - DO NOT set this. It is taken from real env -
+// process.env.MONITOR_PREFIX = ''
 
 var fs = require('fs')
 {% if pepyatka_mailer_smtp_enabled %}
