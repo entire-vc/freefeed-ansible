@@ -1,26 +1,8 @@
-/var/log/pepyatka/*.out {
-  missingok
-  notifempty
-  compress
-  delaycompress
-  sharedscripts
-  postrotate
-{% for port in pepyatka_server_instances %}
-  service pepyatka-{{ port }} restart
-{% endfor %}
-  endscript
-}
-
 {{ pepyatka_home_dir }}/pepyatka-server/log/*.log {
   su {{ pepyatka_user }} {{ pepyatka_group }}
   missingok
   notifempty
   compress
   delaycompress
-  sharedscripts
-  postrotate
-{% for port in pepyatka_server_instances %}
-  service pepyatka-{{ port }} restart
-{% endfor %}
-  endscript
+  copytruncate
 }
