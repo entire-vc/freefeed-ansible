@@ -42,7 +42,7 @@ exports.getConfig = function() {
       enabled: {{ recaptcha_enabled | string | lower }},
       secret: '{{ recaptcha_server_secret }}'
     },
-
+    sentryDsn: '{{ sentry_dsn }}',
     frontendPreferencesLimit: 65536
   }
 
