@@ -63,7 +63,7 @@
   replace:
     dest: "{{ react_client_dir }}/src/config.js"
     regexp: "publicDSN.*"
-    replace: "publicDSN: '{{ sentry_dsn }}',"
+    replace: "publicDSN: '{{ public_sentry_dsn }}',"
 
 - name: Kill local node_modules
   file: path="{{ react_client_dir }}/node_modules" state=absent
