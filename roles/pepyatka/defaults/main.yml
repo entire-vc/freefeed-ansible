@@ -30,6 +30,7 @@ pepyatka_mailer_from_name: 'Pepyatka'
 pepyatka_mailer_from_email: 'mail@pepyatka.com'
 pepyatka_accept_hashed_passwords_only: 'false'
 pepyatka_banlist: ""
+pepyatka_statsd_prefix: "pepyatka"
 recaptcha_enabled: false
 recaptcha_server_secret: ""
 postgres_host: localhost
