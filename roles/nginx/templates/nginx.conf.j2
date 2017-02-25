@@ -89,7 +89,6 @@ http {
       server_name    news.freefeed.net;
       return         301 https://freefeed.net/freefeed;
     }
-{% endif %}
 
     server {
       server_name _;
@@ -97,6 +96,9 @@ http {
       return 301 $scheme://{{ react_client_hostname }}$request_uri;
     }
 
+{% endif %}
+
+{% if pepyatka_s3_bucket != "" %}
    server {
      server_name {{ pepyatka_media_hostname }};
      include pepyatka-ssl.conf;
@@ -112,12 +114,11 @@ http {
        }
        add_header Access-Control-Allow-Origin '*' always;
        add_header Access-Control-Allow-Methods 'GET,HEAD' always;
-{% if pepyatka_s3_bucket != "" %}
        resolver 169.254.169.253 valid=30s;
        proxy_pass https://{{ pepyatka_s3_bucket }}.s3.amazonaws.com;
-{% endif %}
      }
    }
+{% endif %}
 
    server {
      server_name {{ react_client_hostname }};

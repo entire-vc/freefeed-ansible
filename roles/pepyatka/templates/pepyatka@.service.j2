@@ -16,6 +16,10 @@ Environment=NODE_ENV={{ pepyatka_node_env }}
 Environment=PEPYATKA_SERVER_PORT=%I
 Environment=LOG_DIR=/var/log/pepyatka
 Environment=MONITOR_PREFIX={{ pepyatka_statsd_prefix }}
+{% if new_relic_license_key is not defined %}
+Environment=NEW_RELIC_NO_CONFIG=true
+{% endif %}
+ExecStartPre={{ pepyatka_home_dir }}/pepyatka-server/node_modules/.bin/knex migrate:latest
 ExecStart=/usr/bin/npm start
 
 [Install]

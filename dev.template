@@ -1,20 +1,15 @@
-[pepyatka]
+[target]
 <your server ip/hostname>
 
-[nginx]
-<your server ip/hostname>
+[redis:children]
+target
 
-[redis]
-<your server ip/hostname>
+[postgres:children]
+target
 
-[all:vars]
-ansible_ssh_user=<ubuntu or root>
-pepyatka_hostname=<your server ip/hostname>
-pepyatka_media_hostname=<your media server ip/hostname>
-pepyatka_deploy_inventory=dev
-pepyatka_ansible_repo=https://github.com/pepyatka/pepyatka-ansible.git
-pepyatka_ansible_branch=master
-pepyatka_server_repo=https://github.com/pepyatka/pepyatka-server.git
-pepyatka_server_branch=unstable
-pepyatka_html_repo=https://github.com/pepyatka/pepyatka-html.git
-pepyatka_html_branch=development
+[pepyatka:children]
+target
+
+[pepyatka-frontend:children]
+target
+

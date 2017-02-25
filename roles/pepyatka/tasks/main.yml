@@ -95,6 +95,7 @@
     owner: "{{ pepyatka_user }}"
   with_items:
     - attachments/thumbnails
+    - attachments/thumbnails2
     - profilepics
   when: pepyatka_storage_type == 'fs'
   tags:
@@ -137,6 +138,10 @@
   service: name="pepyatka@{{ item }}.service" state=started enabled=yes
   with_items: "{{ pepyatka_server_instances }}"
   register: started_pepyatka
+  tags: pepyatka
+
+- name: Enable pepyatka.target
+  service: name=pepyatka.target enabled=yes
   tags: pepyatka
 
 - name: Restart pepyatka-server instances

@@ -16,13 +16,15 @@
         - libssl-dev
         - libffi-dev
         - python-dev
-        - python-pip
         - git
         - sudo
         - mosh
         - tmux
         - silversearcher-ag
         - ntp
+
+    - name: Reinstall python-pip
+      script: ./install-pip.sh
 
     - name: Install required python modules
       pip: name="{{ item }}" state=latest

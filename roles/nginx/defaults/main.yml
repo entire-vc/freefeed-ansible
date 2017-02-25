@@ -9,6 +9,8 @@ pepyatka_base_port: 3000
 pepyatka_files_dir: /var/pepyatka-files
 pepyatka_s3_bucket: ""
 pepyatka_ga_account: "UA-XXXXXX"
+pepyatka_media_hostname: "{{ inventory_hostname }}"
+pepyatka_storage_type: fs
 
 nginx_client_max_body_size: '10M'
 nginx_use_proxy_protocol: False
@@ -16,8 +18,9 @@ nginx_proxy_protocol_real_ips: []
 
 react_client_basic_auth_enabled: False
 react_client_dir: /var/www/freefeed-react-client
+react_client_hostname: "{{ inventory_hostname }}"
 
 vanilla_enabled: False
 vanilla_dir: /var/www/pepyatka-lite
-vanilla_hostname: localhost
-vanilla_lead_domain: localhost
+vanilla_hostname: "{{ inventory_hostname }}"
+vanilla_lead_domain: "{{ inventory_hostname }}"

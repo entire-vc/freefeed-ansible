@@ -1,4 +1,6 @@
 # Provisioning and deploying pepyatka-server
+All scripts are tested with Debian 8. They probably won't work out of the box with other linux flavors.
+
 ## Installing ansible
 
     apt-get install python-dev gcc
@@ -9,33 +11,17 @@ Minimal required ansible version is 1.9.
 More installation options: http://docs.ansible.com/intro_installation.html#installing-the-control-machine
 
 ### Configuring
-I recommend to add the following alias in your .bashrc:
-
-    alias play=ansible-playbook
-
-Assume play=ansible-playbook down below.
 
 ## Provisioning pepyatka
 Copy dev.template to dev, replace placeholders with your data and run:
 
-    play -i dev playbooks/site.yml [-s]
-
-Flag '-s' is optional, use it if remote user on your server is anything other than root.
-You can add --ask-sudo-pass flag and ansible will ask sudo password in runtime if that user does not have passwordless sudo.
+    ansible-playbook -i dev playbooks/essentials.yml [-u remote_user] [--ask-pass] [--ask-become-pass]
+    ansible-playbook -i dev playbooks/site.yml [-u remote_user] [--ask-pass] [--ask-become-pass]
 
 ### Provisioning locally
 Install ansible, clone this repo, replace placeholders in inventory 'local' with your data and run as root:
 
     ansible-playbook -i local playbooks/site.yml --connection=local
-
-### Bootsrap
-You can boostrap a VM (e.g. an instance in Digital Ocean) with ansible. It will install everything and configure a cron job which will poll git repos for changes and redeploy pepyatka if needed.
-
-Copy dev.template to dev, replace placeholders with your data and run:
-
-    play -i dev playbooks/boostrap.yml [-s]
-
-See "Provisioning pepyatka" for more details.
 
 ## Ad-hoc commands
 Check if all servers are up:
