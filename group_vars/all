@@ -4,6 +4,9 @@ pepyatka_service_name: FreeFeed
 vault_password_file: pepyatka.vault
 
 pepyatka_ansible_repo: https://github.com/freefeed/freefeed-ansible.git
+pepyatka_server_repo: https://github.com/freefeed/pepyatka-server.git
+react_client_repo: https://github.com/freefeed/freefeed-react-client.git
+vanilla_repo: https://github.com/freefeed/freefeed-lite.git
 
 pepyatka_mailer_smtp_enabled: True
 pepyatka_mailer_from_name: FreeFeed.net
