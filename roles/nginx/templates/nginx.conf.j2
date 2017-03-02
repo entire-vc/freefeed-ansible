@@ -124,6 +124,7 @@ http {
      server_name {{ react_client_hostname }};
      access_log /var/log/nginx/{{ react_client_hostname }}.log {{ nginx_use_proxy_protocol | ternary('elb_log', 'main') }};
      include pepyatka-common.conf;
+     ssi on;
      root {{ react_client_dir }}/public;
 
      # Expire rules for static content
