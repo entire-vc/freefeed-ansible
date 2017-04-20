@@ -22,6 +22,7 @@
         - tmux
         - silversearcher-ag
         - ntp
+        - gifsicle
 
     - name: Reinstall python-pip
       script: ./install-pip.sh
