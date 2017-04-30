@@ -118,7 +118,11 @@ exports.getConfig = function() {
           pass: '{{ pepyatka_mailer_smtp_pass }}'
       }
 {% endif %}
-    }
+    },
+    adminRecipient: {
+      email: 'archives@freefeed.net',
+      screenName: 'Archive admins'
+    },
   }
 
   config.redis = {
