@@ -6,10 +6,14 @@
   with_sequence: start="{{ pepyatka_base_port }}" end="{{ pepyatka_base_port + (ansible_processor_cores | int) - 1 }}"
   register: pepyatka_ports
   when: pepyatka_server_instances is not defined
+  tags:
+    - nginx-config
 
 - set_fact:
     pepyatka_server_instances: "{{ pepyatka_ports.results | map(attribute='item') | list }}"
   when: pepyatka_server_instances is not defined
+  tags:
+    - nginx-config
 
 - name: Add apt key for the nginx repository
   become: yes
@@ -30,22 +34,6 @@
 - name: Ensure /etc/nginx/ssl
   become: yes
   file: path=/etc/nginx/ssl state=directory
-
-- name: Deploy server certificate
-  become: yes
-  copy:
-    content="{{ server_cert }}"
-    dest=/etc/nginx/ssl/api.pepyatka.crt
-    mode=0600
-  when: server_cert is defined
-
-- name: Deploy server certificate key
-  become: yes
-  copy:
-    content="{{ server_cert_key }}"
-    dest=/etc/nginx/ssl/api.pepyatka.key
-    mode=0600
-  when: server_cert_key is defined
 
 - name: Ensure nginx has access to pepyatka files
   become: yes
