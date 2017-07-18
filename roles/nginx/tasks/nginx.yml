@@ -15,17 +15,9 @@
   tags:
     - nginx-config
 
-- name: Add apt key for the nginx repository
-  become: yes
-  apt_key: url="http://nginx.org/keys/nginx_signing.key" state=present
-
-- name: Add nginx apt repository
-  become: yes
-  apt_repository: repo="deb http://nginx.org/packages/debian/ {{ ansible_lsb.codename }} nginx"
-
 - name: Install nginx
   become: yes
-  apt: name=nginx state=present update_cache=yes force=yes
+  apt: name=nginx state=present update_cache=yes force=yes default_release=jessie-backports
 
 - name: Deploy custom logrotate config for nginx
   become: yes
