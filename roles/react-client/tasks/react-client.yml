@@ -69,8 +69,13 @@
   file: path="{{ react_client_dir }}/node_modules" state=absent
   when: react_client.before != react_client.after
 
+- name: Install fresh YARN
+  command: npm install -g yarn
+
 - name: Install dependencies
-  npm: path="{{ react_client_dir }}" state=latest
+  command: yarn install
+  args:
+    chdir: react_client_dir
 
 - name: Update server url in bookmarklet*.js
   replace:
