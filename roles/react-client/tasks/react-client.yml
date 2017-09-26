@@ -75,7 +75,7 @@
 - name: Install dependencies
   command: yarn install
   args:
-    chdir: react_client_dir
+    chdir: "{{ react_client_dir }}"
 
 - name: Update server url in bookmarklet*.js
   replace:
