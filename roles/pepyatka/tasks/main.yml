@@ -53,6 +53,8 @@
   tags: pepyatka
 
 - name: Deploy pepaytka config
+  become: yes
+  become_user: "{{ pepyatka_user }}"
   template:
     src: environment.js.j2
     dest: "{{ pepyatka_home_dir }}/pepyatka-server/config/environments/{{ pepyatka_node_env }}.js"
@@ -62,6 +64,8 @@
   tags: pepyatka
 
 - name: Deploy reset password mail template
+  become: yes
+  become_user: "{{ pepyatka_user }}"
   template:
     src: resetPassword.ejs.j2
     dest: "{{ pepyatka_home_dir }}/pepyatka-server/app/scripts/views/mailer/resetPassword.ejs"
@@ -70,6 +74,8 @@
   tags: pepyatka
 
 - name: Deploy banlist.txt
+  become: yes
+  become_user: "{{ pepyatka_user }}"
   copy:
     content: "{{ pepyatka_banlist }}"
     dest: "{{ pepyatka_home_dir }}/pepyatka-server/config/banlist.txt"
@@ -79,6 +85,8 @@
   tags: pepyatka
 
 - name: Deploy knex config
+  become: yes
+  become_user: "{{ pepyatka_user }}"
   template:
     src: knexfile.js.j2
     dest: "{{ pepyatka_home_dir }}/pepyatka-server/knexfile.js"
@@ -107,6 +115,8 @@
   tags: pepyatka
 
 - name: Install pepyatka-server dependencies
+  become: yes
+  become_user: "{{ pepyatka_user }}"
   npm: path="{{ pepyatka_home_dir }}/pepyatka-server" state=latest
   tags: pepyatka
 
@@ -124,6 +134,8 @@
   tags: pepyatka
 
 - name: Deploy newrelic.js
+  become: yes
+  become_user: "{{ pepyatka_user }}"
   template: src=newrelic.js.j2 dest="{{ pepyatka_home_dir }}/pepyatka-server/newrelic.js"
   when: new_relic_license_key is defined and new_relic_app_name is defined
   tags:
