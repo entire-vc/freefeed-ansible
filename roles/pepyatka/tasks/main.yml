@@ -114,11 +114,15 @@
   when: pepyatka_server.before != pepyatka_server.after
   tags: pepyatka
 
-- name: Install pepyatka-server dependencies
+- name: Install fresh YARN
+  command: npm install -g yarn
+
+- name: Install dependencies
   become: yes
   become_user: "{{ pepyatka_user }}"
-  npm: path="{{ pepyatka_home_dir }}/pepyatka-server" state=latest
-  tags: pepyatka
+  command: yarn install
+  args:
+    chdir: "{{ pepyatka_home_dir }}/pepyatka-server"
 
 - name: Deploy pepyatka@.service
   template: src=pepyatka@.service.j2 dest=/lib/systemd/system/pepyatka@.service
