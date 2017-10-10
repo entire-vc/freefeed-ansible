@@ -196,3 +196,16 @@
   tags:
     - pepyatka
     - pepyatka-daily-stats
+
+- name: Setup cron job for notification emails
+  cron:
+    name="FreeFeed notification emails"
+    cron_file=freefeed-notification-emails
+    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/notification_emails.js && NODE_ENV={{ pepyatka_node_env }} node_modules/.bin/babel-node bin/notification_emails.js || true"
+    user="{{ pepyatka_user }}"
+    minute=15
+    state=present
+  tags:
+    - pepyatka
+    - pepyatka-notification-emails
+
