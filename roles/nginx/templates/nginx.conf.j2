@@ -81,7 +81,7 @@ http {
 
     server {
       listen         80 {{ nginx_use_proxy_protocol | ternary('proxy_protocol', '') }};
-      server_name    {{ react_client_hostname }};
+      server_name    {{ react_client_hostname }} www.{{ react_client_hostname }};
       include        /etc/nginx/letsencrypt-acme-challenge.conf;
       return         301 https://$server_name$request_uri;
     }
