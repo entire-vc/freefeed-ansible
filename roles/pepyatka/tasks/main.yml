@@ -210,3 +210,16 @@
     - pepyatka
     - pepyatka-notification-emails
 
+- name: Setup cron job for bestof emails
+  cron:
+    name="FreeFeed bestof emails"
+    cron_file=freefeed-bestof-emails
+    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/bestof_emails.js && NODE_ENV={{ pepyatka_node_env }} node_modules/.bin/babel-node bin/bestof_emails.js || true"
+    user="{{ pepyatka_user }}"
+    hour=07
+    minute=40
+    state=present
+  tags:
+    - pepyatka
+    - pepyatka-bestof-emails
+
