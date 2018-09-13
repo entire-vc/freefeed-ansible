@@ -1,5 +1,5 @@
 ---
 - hosts: pepyatka
   roles:
-    - nodejs
+    #- nodejs
     - pepyatka
