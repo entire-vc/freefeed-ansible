@@ -30,4 +30,3 @@ recaptcha_client_secret: '6LdChhITAAAAAGzgvUPPCbg0cxJzcxFc5vlBs9u5'
 
 new_relic_app_name: "FreeFeed Production"
 public_sentry_dsn: 'https://abdac1f2db2d45efaa9142062fe14bd8@sentry.io/75960'
-server_cert: letsencrypt
