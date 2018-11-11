@@ -3,7 +3,7 @@
 
 - name: Generate pepyatka ports array
   debug:
-  with_sequence: start="{{ pepyatka_base_port }}" end="{{ pepyatka_base_port + (ansible_processor_cores | int) - 1 }}"
+  with_sequence: start="{{ pepyatka_base_port }}" end="{{ pepyatka_base_port + (ansible_processor_vcpus | int) - 1 }}"
   register: pepyatka_ports
   when: pepyatka_server_instances is not defined
   tags:
