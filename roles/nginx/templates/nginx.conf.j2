@@ -81,6 +81,10 @@ http {
      server_name {{ react_client_hostname }};
      access_log /var/log/nginx/{{ react_client_hostname }}.log main;
      include pepyatka-common.conf;
+
+     # Used for opengraph-data export
+     ssi on;
+
      root {{ react_client_dir }}/public;
 
      # Expire rules for static content
