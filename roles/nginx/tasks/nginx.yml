@@ -17,7 +17,7 @@
 
 - name: Install nginx
   become: yes
-  apt: name=nginx state=present update_cache=yes force=yes default_release=jessie-backports
+  apt: name=nginx-extras state=present update_cache=yes force=yes default_release=jessie-backports
 
 - name: Deploy custom logrotate config for nginx
   become: yes
