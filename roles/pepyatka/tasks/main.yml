@@ -125,15 +125,18 @@
     chdir: "{{ pepyatka_home_dir }}/pepyatka-server"
 
 - name: Deploy pepyatka@.service
+  become: yes
   template: src=pepyatka@.service.j2 dest=/lib/systemd/system/pepyatka@.service
   register: systemd_service
   tags: pepyatka
 
 - name: Deploy pepyatka.target
+  become: yes
   copy: src=pepyatka.target dest=/lib/systemd/system/
   tags: pepyatka
 
 - name: Deploy logrotate config for pepyatka instances
+  become: yes
   template: src=logrotate.j2 dest=/etc/logrotate.d/pepyatka
   tags:
     - pepyatka
@@ -149,20 +152,24 @@
     - newrelic
 
 - name: Run systemctl daemon-reload
+  become: yes
   command: systemctl daemon-reload
   tags: pepyatka
 
 - name: Start pepyatka-server instances
+  become: yes
   service: name="pepyatka@{{ item }}.service" state=started enabled=yes
   with_items: "{{ pepyatka_server_instances }}"
   register: started_pepyatka
   tags: pepyatka
 
 - name: Enable pepyatka.target
+  become: yes
   service: name=pepyatka.target enabled=yes
   tags: pepyatka
 
 - name: Restart pepyatka-server instances
+  become: yes
   service: name="pepyatka@{{ item }}.service" state=restarted
   with_items: "{{ pepyatka_server_instances }}"
   when: pepyatka_server is defined and (pepyatka_server.before != pepyatka_server.after)
@@ -174,6 +181,7 @@
   tags: pepyatka
 
 - name: Create directory for cron logs
+  become: yes
   file:
     path: "{{ freefeed_cron_log_dir }}"
     state: directory
@@ -184,6 +192,7 @@
     - pepyatka-cron
 
 - name: Setup cron job for daily stats
+  become: yes
   cron:
     name="Pepyatka daily stats"
     cron_file=pepyatka-daily-stats
@@ -197,6 +206,7 @@
     - pepyatka-cron
 
 - name: Setup db maintenance cron job
+  become: yes
   cron:
     name="Pepyatka db daily maintenance"
     cron_file=pepyatka-db-maintenance
@@ -210,6 +220,7 @@
     - pepyatka-cron
 
 - name: Setup cron job for notification emails
+  become: yes
   cron:
     name="FreeFeed notification emails"
     cron_file=freefeed-notification-emails
@@ -223,6 +234,7 @@
     - pepyatka-cron
 
 - name: Setup cron job for bestof emails
+  become: yes
   cron:
     name="FreeFeed bestof emails"
     cron_file=freefeed-bestof-emails
