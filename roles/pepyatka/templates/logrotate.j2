@@ -6,3 +6,11 @@
   delaycompress
   copytruncate
 }
+
+{{ freefeed_cron_log_dir }}/*.log {
+  su {{ pepyatka_user }} {{ pepyatka_group }}
+  missingok
+  notifempty
+  compress
+  delaycompress
+}
