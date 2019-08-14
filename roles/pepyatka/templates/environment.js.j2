@@ -37,6 +37,7 @@ exports.getConfig = function() {
     acceptHashedPasswordsOnly: {{ pepyatka_accept_hashed_passwords_only }},
     logLevel: 'warn',
     logResponseTime: true,
+    trustProxyHeaders: true,
     onboardingUsername: '{{ pepyatka_onboarding_username }}',
     recaptcha: {
       enabled: {{ recaptcha_enabled | string | lower }},
