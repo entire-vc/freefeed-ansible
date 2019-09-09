@@ -32,14 +32,14 @@
 - name: Update api.host in src/config.js
   replace:
     dest: "{{ react_client_dir }}/src/config.js"
-    regexp: "host:.*"
-    replace: "host: '{{ pepyatka_frontend_scheme }}://{{ react_client_hostname }}',"
+    regexp: "    host:.*"
+    replace: "    host: '{{ pepyatka_frontend_scheme }}://{{ react_client_hostname }}',"
 
 - name: Update cookie domain in src/config.js
   replace:
     dest: "{{ react_client_dir }}/src/config.js"
-    regexp: "cookieDomain.*"
-    replace: "cookieDomain: '{{ auth_cookie_domain }}',"
+    regexp: "    cookieDomain.*"
+    replace: "    cookieDomain: '{{ auth_cookie_domain }}',"
 
 - name: Update tokenPrefix in src/config.js
   replace:
@@ -80,8 +80,8 @@
 - name: Update server url in bookmarklet*.js
   replace:
     dest: "{{ react_client_dir }}/assets/js/{{ item }}"
-    regexp: "HOST,"
-    replace: "'{{ pepyatka_frontend_scheme }}://{{ pepyatka_hostname }}',"
+    regexp: "http://localhost:3333"
+    replace: "{{ pepyatka_frontend_scheme }}://{{ pepyatka_hostname }}"
   with_items:
     - bookmarklet.js
     - bookmarklet.min.js
