@@ -1,42 +1,11 @@
 ---
 
-- name: Import PostgreSQL apt repo key
-  apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
-
-- name: Add PostgreSQL apt repo
-  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ wheezy-pgdg main' state=present
-
 - name: Install packages
   apt: name="{{ item }}" state=present update_cache=yes
   with_items:
-    - postgresql
+    - postgresql-client
+    - postgresql-client-9.6
     - libpq-dev
     - python-psycopg2
+    - python3-psycopg2
 
-- name: Create postgres user
-  become: yes
-  become_user: postgres
-  postgresql_user:
-    name="{{ postgres_user }}"
-    password="{{ postgres_pass }}"
-    role_attr_flags=LOGIN
-
-- name: Create db
-  become: yes
-  become_user: postgres
-  postgresql_db:
-    name="{{ postgres_dbname }}"
-    owner="{{ postgres_user }}"
-    encoding='UTF-8'
-
-- name: Create postgres extensions
-  become: yes
-  become_user: postgres
-  postgresql_ext: name="{{ item }}" db="{{ postgres_dbname }}"
-  with_items:
-    - pgcrypto
-    - intarray
-    - tablefunc
-
-- name: Start and enable postgresql
-  service: name=postgresql state=started enabled=yes
