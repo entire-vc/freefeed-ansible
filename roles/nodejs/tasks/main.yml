@@ -3,15 +3,14 @@
 - name: Add apt key for the nodesource repository
   become: yes
   apt_key:
-    url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
-    id: "68576280"
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
     state: present
   tags:
     - nodejs
 
 - name: Add the nodesource apt repository
   become: yes
-  apt_repository: repo="deb https://deb.nodesource.com/node_8.x {{ ansible_lsb.codename }} main" state=present
+  apt_repository: repo="deb https://deb.nodesource.com/node_12.x buster main" state=present
   tags:
     - nodejs
 

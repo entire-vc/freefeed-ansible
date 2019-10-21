@@ -2,11 +2,11 @@
 
 - name: Import pganalyze collector pgp key
   become: yes
-  apt_key: url=https://packagecloud.io/pganalyze/collector/gpgkey state=present
+  apt_key: url=https://packages.pganalyze.com/pganalyze_signing_key.asc state=present
 
 - name: Add pganalyze collector repo
   become: yes
-  apt_repository: repo='deb https://packagecloud.io/pganalyze/collector/debian/ jessie main' state=present
+  apt_repository: repo='deb https://packages.pganalyze.com/debian/stretch/ stable main' state=present
 
 - name: Install packages
   become: yes
