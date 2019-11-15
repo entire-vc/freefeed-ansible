@@ -16,8 +16,6 @@
       tags:
         - changelog
 
-- include: redis.yml
-- include: postgres.yml
 - include: pepyatka.yml
 - include: pepyatka-frontend.yml
 
