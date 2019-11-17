@@ -15,7 +15,7 @@ pepyatka_onboarding_username: welcome
 
 pepyatka_node_env: production
 pepyatka_server_host: localhost
-pepyatka_file_size_limit: '50mb'
+pepyatka_file_size_limit: 52428800
 
 auth_cookie_domain: freefeed.net
 local_storage_whoami_cache_key: whoamiCache
