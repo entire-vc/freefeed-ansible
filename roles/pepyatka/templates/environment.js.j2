@@ -46,9 +46,9 @@ exports.getConfig = function() {
     sentryDsn: '{{ sentry_dsn }}',
     dynamicRiverOfNews: true,
     frontendPreferencesLimit: 65536
-  }
+  };
 
-  config.host = '{{ pepyatka_frontend_scheme }}://{{ pepyatka_hostname }}'
+  config.host = '{{ pepyatka_frontend_scheme }}://{{ pepyatka_hostname }}';
 
   var extraStopList = fs.readFileSync('{{ pepyatka_home_dir }}/pepyatka-server/config/banlist.txt')
     .toString()
@@ -62,7 +62,7 @@ exports.getConfig = function() {
       'public', 'requests', 'search', 'settings', 'share', 'signin', 'signup', 'summary'
     ],
     EXTRA_STOP_LIST: extraStopList
-  }
+  };
 
   config.media = {
     // Public URL prefix
@@ -81,7 +81,8 @@ exports.getConfig = function() {
       secretAccessKey: {{ pepyatka_aws_secret_key }},
       bucket: '{{ pepyatka_s3_bucket }}'
     }
-  }
+  };
+
   config.attachments = {
     url: config.media.url,
     storage: config.media.storage,
@@ -98,13 +99,14 @@ exports.getConfig = function() {
         bounds: { width: 1050, height: 350 }
       }
     }
-  }
+  };
+
   config.profilePictures = {
     url: config.media.url,
     storage: config.media.storage,
     path: 'profilepics/', // must have trailing slash
     defaultProfilePictureMediumUrl: 'https://media.freefeed.net/attachments/d067713e-0ba4-4d0a-ae1f-41b31780fda3.png',
-  }
+  };
 
   config.mailer = {
     transport: transport,
@@ -126,8 +128,8 @@ exports.getConfig = function() {
     adminRecipient: {
       email: 'archives@freefeed.net',
       screenName: 'Archive admins'
-    },
-  }
+    }
+  };
 
   config.redis = {
     host: '{{ pepyatka_redis_host }}',
@@ -150,7 +152,7 @@ exports.getConfig = function() {
         // reconnect after
         return Math.min(options.attempt * 100, 3000);
     }
-  }
+  };
 
   config.performance = {
     // PostgreSQL 'statement_timeout' for search queries in milliseconds (0 => no timeout)
@@ -177,7 +179,7 @@ exports.getConfig = function() {
       clientSecret: '{{ freefeed_external_auth_facebook_client_secret }}'
     }
   {% endif %}
-  },
+  };
 
   config.postgres = postgresConfig;
 
