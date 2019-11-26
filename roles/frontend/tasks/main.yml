@@ -1,0 +1,76 @@
+---
+
+- name: Pull latest react client image
+  become: yes
+  docker_image:
+    name: "freefeed/freefeed-react-client-{{ react_client_branch }}:latest"
+    source: pull
+    state: present
+    force_source: yes
+  register: pull_react_client_image
+
+- name: Pull latest nginx image
+  become: yes
+  docker_image:
+    name: "nginx:latest"
+    source: pull
+    state: present
+  register: pull_nginx_image
+
+- name: Get nginx config files from S3
+  become: yes
+  aws_s3:
+    bucket: freefeed-config
+    object: "nginx/{{ react_client_branch }}/nginx.conf"
+    dest: "/etc/nginx/nginx.conf"
+    mode: get
+    overwrite: different
+  register: get_nginx_conf
+
+- name: Get nginx config files from S3
+  become: yes
+  aws_s3:
+    bucket: freefeed-config
+    object: "nginx/{{ react_client_branch }}/pepyatka-common.conf"
+    dest: "/etc/nginx/pepyatka-common.conf"
+    mode: get
+    overwrite: different
+  register: get_pepyatka_common_conf
+
+- name: Delete nginx and react-client containers
+  become: yes
+  docker_container:
+    name: "{{ item }}"
+    state: absent
+    force_kill: yes
+  loop:
+    - nginx
+    - freefeed-react-client
+  when: pull_react_client_image.changed or pull_nginx_image.changed
+
+- name: Create freefeed-react-client container
+  become: yes
+  docker_container:
+    name: freefeed-react-client
+    image: "freefeed/freefeed-react-client-{{ react_client_branch }}:latest"
+    command: echo
+    state: present
+
+- name: Start nginx container
+  become: yes
+  docker_container:
+    name: nginx
+    image: nginx:latest
+    volumes_from: freefeed-react-client
+    published_ports:
+      - 8080:80
+    volumes:
+      - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /etc/nginx/pepyatka-common.conf:/etc/nginx/pepyatka-common.conf:ro
+    state: started
+    restart_policy: on-failure
+
+- name: Reload configuration
+  become: yes
+  command: docker kill -s HUP nginx
+  when: get_nginx_conf.changed or get_pepyatka_common_conf.changed

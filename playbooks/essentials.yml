@@ -33,3 +33,4 @@
         - httplib2
         - ansible
         - markupsafe
+        - boto3
