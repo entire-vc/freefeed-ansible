@@ -3,14 +3,14 @@
 pepyatka_hostname: candy.freefeed.net
 pepyatka_media_hostname: stable-media.freefeed.net
 pepyatka_server_branch: stable
+freefeed_server_branch: stable
 pepyatka_ansible_branch: development
 pepyatka_s3_bucket: freefeed-storage-test
 pepyatka_deploy_inventory: stable
-
+vanilla_enabled: false
+react_client_enabled: true
 react_client_branch: stable
 react_client_hostname: candy.freefeed.net
-
-vanilla_enabled: false
 
 nginx_load_balancer_source: '172.31.0.0/16'
 

@@ -56,6 +56,13 @@
     command: echo
     state: present
 
+- set_fact:
+    server_containers: []
+
+- set_fact:
+    server_containers: "{{ server_containers + ['freefeed-server-'+item+':freefeed-server-'+item] }}"
+  with_sequence: count="{{ ansible_processor_cores }}"
+
 - name: Start nginx container
   become: yes
   docker_container:
@@ -63,10 +70,11 @@
     image: nginx:latest
     volumes_from: freefeed-react-client
     published_ports:
-      - 8080:80
+      - 80:80
     volumes:
       - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - /etc/nginx/pepyatka-common.conf:/etc/nginx/pepyatka-common.conf:ro
+    links: "{{ server_containers }}"
     state: started
     restart_policy: on-failure
 

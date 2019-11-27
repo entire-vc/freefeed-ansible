@@ -7,10 +7,16 @@ target
 [pepyatka:children]
 target
 
+[server:children]
+target
+
 [pepyatka-frontend:children]
 target
 
 [unstable:children]
+target
+
+[frontend:children]
 target
 
 [unstable_secrets:children]
