@@ -46,6 +46,7 @@
     FRF_USER_STORAGE_KEY: "{{ local_storage_whoami_cache_key }}"
     FRF_CAPTCHA_SITEKEY: "{{ recaptcha_client_secret }}"
     FRF_SENTRY_DSN: "{{ public_sentry_dsn }}"
+    FRF_REG_LIMIT_FORM_IFRAME_SRC: "{{ reg_limit_form_iframe_src }}"
 
 - name: Fix permissions
   file:

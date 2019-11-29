@@ -13,3 +13,4 @@ auth_token_prefix: dummy_
 recaptcha_client_secret: ""
 public_sentry_dsn: 'https://0123456789abcdef0123456789abcdef@app.getsentry.com/12345'
 frontend_scheme: http
+reg_limit_form_iframe_src: ""
