@@ -13,10 +13,19 @@ StandardError=syslog
 SyslogIdentifier=pepyatka-%I
 Environment=NODE_PATH=/usr/lib/node_modules
 Environment=NODE_ENV={{ pepyatka_node_env }}
-Environment=PEPYATKA_SERVER_PORT=%I
+Environment=FRFS_PORT=%I
 Environment=LOG_DIR=/var/log/pepyatka
 Environment=MONITOR_PREFIX={{ pepyatka_statsd_prefix }}
-{% if new_relic_license_key is not defined %}
+Environment=FRFS_REDIS_HOST={{ pepyatka_redis_host }}
+Environment=FRFS_REDIS_PORT={{ pepyatka_redis_port }}
+Environment=FRFS_PG_HOST={{ postgres_host }}
+Environment=FRFS_PG_PORT={{ postgres_port }}
+Environment=FRFS_PG_USER={{ postgres_user }}
+Environment=FRFS_PG_PASSWORD={{ postgres_pass }}
+{% if new_relic_license_key is defined %}
+Environment=NEW_RELIC_APP_NAME={{ new_relic_app_name }}
+Environment=NEW_RELIC_LICENSE_KEY={{ new_relic_license_key }}
+{% else %}
 Environment=NEW_RELIC_NO_CONFIG=true
 {% endif %}
 ExecStartPre={{ pepyatka_home_dir }}/pepyatka-server/node_modules/.bin/knex migrate:latest
