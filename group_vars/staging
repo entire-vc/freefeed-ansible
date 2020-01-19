@@ -7,7 +7,8 @@ vanilla_lead_domain: micropeppa
 pepyatka_redis_host: localhost
 pepyatka_storage_type: s3
 pepyatka_s3_bucket: freefeed-storage-test
-recaptcha_enabled: false
+recaptcha_enabled: true
+recaptcha_client_secret: '6LdChhITAAAAAGzgvUPPCbg0cxJzcxFc5vlBs9u5'
 postgres_port: 5432
 postgres_user: stagefeed
 postgres_dbname: stagefeed
