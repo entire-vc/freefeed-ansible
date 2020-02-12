@@ -167,7 +167,7 @@
   cron:
     name="Pepyatka daily stats"
     cron_file=pepyatka-daily-stats
-    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/count-daily-stats.js && NODE_ENV={{ pepyatka_node_env }} node_modules/.bin/babel-node bin/count-daily-stats.js >> {{ freefeed_cron_log_dir }}/count-daily-stats.log 2>&1 || true"
+    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/count-daily-stats.js && NODE_CONFIG_ENV={{ pepyatka_server_branch }} node_modules/.bin/babel-node bin/count-daily-stats.js >> {{ freefeed_cron_log_dir }}/count-daily-stats.log 2>&1 || true"
     user="{{ pepyatka_user }}"
     minute=5
     hour=0
@@ -181,7 +181,7 @@
   cron:
     name="Pepyatka db daily maintenance"
     cron_file=pepyatka-db-maintenance
-    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/db_maintenance.js && NODE_ENV={{ pepyatka_node_env }} node_modules/.bin/babel-node bin/db_maintenance.js >> {{ freefeed_cron_log_dir }}/db_maintenance.log 2>&1 || true"
+    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/db_maintenance.js && NODE_CONFIG_ENV={{ pepyatka_server_branch }} node_modules/.bin/babel-node bin/db_maintenance.js >> {{ freefeed_cron_log_dir }}/db_maintenance.log 2>&1 || true"
     user="{{ pepyatka_user }}"
     minute=15
     hour=0
@@ -195,7 +195,7 @@
   cron:
     name="FreeFeed notification emails"
     cron_file=freefeed-notification-emails
-    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/notification_emails.js && NODE_ENV={{ pepyatka_node_env }} node_modules/.bin/babel-node bin/notification_emails.js >> {{ freefeed_cron_log_dir }}/notification_emails.log 2>&1 || true"
+    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/notification_emails.js && NODE_CONFIG_ENV={{ pepyatka_server_branch }} node_modules/.bin/babel-node bin/notification_emails.js >> {{ freefeed_cron_log_dir }}/notification_emails.log 2>&1 || true"
     user="{{ pepyatka_user }}"
     hour=19
     minute=45
@@ -209,7 +209,7 @@
   cron:
     name="FreeFeed bestof emails"
     cron_file=freefeed-bestof-emails
-    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/bestof_emails.js && NODE_ENV={{ pepyatka_node_env }} node_modules/.bin/babel-node bin/bestof_emails.js >> {{ freefeed_cron_log_dir }}/bestof_emails.log 2>&1 || true"
+    job="cd {{ pepyatka_home_dir }}/pepyatka-server && test -f bin/bestof_emails.js && NODE_CONFIG_ENV={{ pepyatka_server_branch }} node_modules/.bin/babel-node bin/bestof_emails.js >> {{ freefeed_cron_log_dir }}/bestof_emails.log 2>&1 || true"
     user="{{ pepyatka_user }}"
     hour=04
     minute=40
