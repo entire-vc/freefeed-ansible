@@ -1,6 +1,7 @@
 ---
 
 - hosts: all
+  gather_facts: false
   tasks:
     - name: render local-{{ pepyatka_server_branch }}.json
       local_action: template
