@@ -14,6 +14,7 @@ SyslogIdentifier=pepyatka-%I
 Environment=NODE_PATH=/usr/lib/node_modules
 Environment=NODE_ENV={{ pepyatka_node_env }}
 Environment=NODE_CONFIG_ENV={{ pepyatka_server_branch }}
+Environment=MONITOR_PREFIX={{ monitor_prefix }}
 Environment=FRFS_PORT=%I
 ExecStartPre={{ pepyatka_home_dir }}/pepyatka-server/node_modules/.bin/knex migrate:latest
 ExecStart=/usr/bin/npm start
