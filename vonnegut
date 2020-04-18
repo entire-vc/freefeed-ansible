@@ -1,0 +1,17 @@
+[target]
+vonnegut.freefeed.net
+
+[redis:children]
+target
+
+[server:children]
+target
+
+[pepyatka-frontend:children]
+target
+
+[vonnegut:children]
+target
+
+[vonnegut_secrets:children]
+target

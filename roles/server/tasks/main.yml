@@ -1,23 +1,21 @@
-- name: Create directory for freefeed-server config
+- name: Ensure /etc/freefeed
   become: yes
   file:
-    path: /etc/freefeed-server
+    path: /etc/freefeed
     state: directory
 
 - name: Get config files
   become: yes
   aws_s3:
     bucket: freefeed-config
-    object: "freefeed-server/{{ freefeed_server_branch }}/{{ item }}"
-    dest: "/etc/freefeed-server/{{ item }}"
+    object: "server/{{ item }}"
+    dest: "/etc/freefeed/{{ item }}"
     mode: get
     overwrite: different
   loop:
-    - production.js
-    - resetPassword.ejs
-    - banlist.txt
-    - knexfile.js
-    - newrelic.js
+    - "local-{{ freefeed_env }}.json"
+    - "banlist.txt"
+  when: freefeed_fetch_config_overrides_from_s3
 
 - name: Pull latest docker image
   become: yes
@@ -35,6 +33,8 @@
     image: "redis:latest"
     state: started
     restart_policy: on-failure
+    networks:
+      - name: freefeed
 
 - name: Run DB migrations
   become: yes
@@ -44,15 +44,15 @@
     command: "./node_modules/.bin/knex migrate:latest"
     detach: false
     volumes:
-      - /etc/freefeed-server/production.js:/server/config/environments/production.js:ro
-      - /etc/freefeed-server/resetPassword.ejs:/server/app/scripts/views/mailer/resetPassword.ejs:ro
-      - /etc/freefeed-server/banlist.txt:/server/config/banlist.txt:ro
-      - /etc/freefeed-server/knexfile.js:/server/knexfile.js:ro
-      - /etc/freefeed-server/newrelic.js:/server/newrelic.js:ro
+      - "/etc/freefeed/local-{{ freefeed_env }}.json:/server/config/local-{{ freefeed_env }}.json:ro"
+      - /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro
     env:
       NODE_ENV: production
+      MONITOR_PREFIX: "{{ monitor_prefix }}"
+      NODE_CONFIG_ENV: "{{ freefeed_env }}"
+    networks:
+      - name: freefeed
     state: started
-    auto_remove: yes
 
 - name: Ensure directory for logs
   become: yes
@@ -68,19 +68,21 @@
     command: "yarn start"
     init: yes
     published_ports:
-      - "{{ 3000 + item|int }}:3000"
+      - "{{ 2999 + item|int }}:3000"
     links:
       - redis:redis
     volumes:
-      - /etc/freefeed-server/production.js:/server/config/environments/production.js:ro
-      - /etc/freefeed-server/resetPassword.ejs:/server/app/scripts/views/mailer/resetPassword.ejs:ro
-      - /etc/freefeed-server/banlist.txt:/server/config/banlist.txt:ro
-      - /etc/freefeed-server/knexfile.js:/server/knexfile.js:ro
-      - /etc/freefeed-server/newrelic.js:/server/newrelic.js:ro
+      - "/etc/freefeed/local-{{ freefeed_env }}.json:/server/config/local-{{ freefeed_env }}.json:ro"
+      - /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro
       - /var/log/freefeed-server:/server/log
     env:
       NODE_ENV: production
-      PORT: "3000"
+      MONITOR_PREFIX: "{{ monitor_prefix }}"
+      NODE_CONFIG_ENV: "{{ freefeed_env }}"
+      FRFS_PORT: "3000"
+      #DEBUG: '*,-babel*'
+    networks:
+      - name: freefeed
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost/v2/server-info"]
       interval: 30s
@@ -89,5 +91,15 @@
       start_period: 15s
     state: started
     restart_policy: on-failure
-  with_sequence: count="{{ ansible_processor_vcpus }}"
+  with_sequence: count="{{ freefeed_server_instances }}"
+
+- name: "Wait for FreeFeed server to come up"
+  uri:
+    url: "http://localhost:{{ 2999 + item|int }}/v2/server-info"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 5
+  delay: 1
+  with_sequence: count="{{ freefeed_server_instances }}"
 

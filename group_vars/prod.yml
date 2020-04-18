@@ -4,6 +4,7 @@ pepyatka_hostname: freefeed.net
 pepyatka_media_hostname: media.freefeed.net
 pepyatka_server_branch: release
 pepyatka_ansible_branch: freefeed
+freefeed_env: release
 pepyatka_s3_bucket: freefeed-media
 pepyatka_ga_account: 'UA-62517081-1'
 pepyatka_deploy_inventory: prod

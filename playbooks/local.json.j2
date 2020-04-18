@@ -47,6 +47,10 @@
       "screenName": "Archive admins"
     }
   },
+  "redis": {
+    "host": "{{ redis_host | default('localhost') }}",
+    "port": "{{ redis_port | default(6379) }}"
+  },
   "postgres": {
     "connection": {
       "host": "{{ postgres_host }}",

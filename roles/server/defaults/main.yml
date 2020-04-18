@@ -1,0 +1,3 @@
+---
+
+freefeed_server_instances: "{{ ansible_processor_vcpus }}"

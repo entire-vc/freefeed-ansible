@@ -1,24 +1,24 @@
 ---
 
-pepyatka_hostname: candy.freefeed.net
+pepyatka_hostname: vonnegut.freefeed.net
 pepyatka_media_hostname: stable-media.freefeed.net
 pepyatka_server_branch: stable
 freefeed_server_branch: stable
-freefeed_env: stable
+freefeed_env: vonnegut
 pepyatka_ansible_branch: development
 pepyatka_s3_bucket: freefeed-storage-test
 pepyatka_deploy_inventory: stable
 vanilla_enabled: false
 react_client_enabled: true
 react_client_branch: stable
-react_client_hostname: candy.freefeed.net
-
-nginx_load_balancer_source: '172.31.0.0/16'
+react_client_hostname: vonnegut.freefeed.net
 
 auth_token_prefix: micropeppa_
 
 public_sentry_dsn: 'https://c0d1b60991264cc4b56a1398db012900@sentry.io/79081'
 freefeed_external_auth_providers_enabled: true
-new_relic_app_name: "FreeFeed Stable"
-monitor_prefix: candy
+new_relic_app_name: "FreeFeed Vonnegut"
+monitor_prefix: vonnegut
 freefeed_fetch_config_overrides_from_s3: true
+redis_host: redis
+freefeed_server_instances: 2
