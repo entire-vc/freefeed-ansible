@@ -1,4 +1,4 @@
 ---
-- hosts: pepyatka-frontend
+- hosts: frontend
   roles:
     - frontend

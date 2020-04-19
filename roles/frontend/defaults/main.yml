@@ -1,10 +1,10 @@
 ---
 
-www_user: www-data
-www_group: www-data
+nginx_user: www-data
+nginx_group: www-data
 
 www_dir: /var/www
-react_client_dir: "{{ www_dir }}/client"
+react_client_dir: "{{ www_dir }}/freefeed-react-client"
 react_client_repo: https://github.com/freefeed/freefeed-react-client.git
 react_client_branch: stable
 react_client_hostname: "{{ inventory_hostname }}"

@@ -7,7 +7,7 @@ target
 [server:children]
 target
 
-[pepyatka-frontend:children]
+[frontend:children]
 target
 
 [vonnegut:children]

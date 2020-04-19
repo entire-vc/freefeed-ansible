@@ -1,13 +1,13 @@
 ---
 
-pepyatka_hostname: vonnegut.freefeed.net
-pepyatka_media_hostname: stable-media.freefeed.net
-pepyatka_server_branch: stable
+freefeed_hostname: vonnegut.freefeed.net
+freefeed_media_hostname: stable-media.freefeed.net
 freefeed_server_branch: stable
 freefeed_env: vonnegut
-pepyatka_ansible_branch: development
-pepyatka_s3_bucket: freefeed-storage-test
-pepyatka_deploy_inventory: stable
+freefeed_ansible_branch: development
+freefeed_s3_bucket: freefeed-storage-test
+freefeed_storage_type: s3
+freefeed_deploy_inventory: stable
 vanilla_enabled: false
 react_client_enabled: true
 react_client_branch: stable
@@ -22,3 +22,4 @@ monitor_prefix: vonnegut
 freefeed_fetch_config_overrides_from_s3: true
 redis_host: redis
 freefeed_server_instances: 2
+freefeed_frontend_scheme: http
