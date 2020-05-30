@@ -31,4 +31,8 @@ redis_host: redis
 freefeed_server_instances: 2
 freefeed_frontend_scheme: http
 
+vanilla_env: unstable
+vanilla_hostname: nanopeppa.freefeed.net
+vanilla_lead_domain: micropeppa
+
 ansible_python_interpreter: /usr/bin/python3

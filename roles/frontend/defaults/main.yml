@@ -1,13 +1,19 @@
 ---
 
-nginx_user: www-data
-nginx_group: www-data
+nginx_user: nginx
+nginx_group: nginx
 
-www_dir: /var/www
-react_client_dir: "{{ www_dir }}/freefeed-react-client"
-react_client_repo: https://github.com/freefeed/freefeed-react-client.git
-react_client_branch: stable
+react_client_dir: /var/www/freefeed-react-client
+react_client_env: stable
+react_client_image: "freefeed/freefeed-react-client-{{ react_client_env }}:latest"
 react_client_hostname: "{{ inventory_hostname }}"
+
+vanilla_enabled: True
+vanilla_env: unstable
+vanilla_image: "freefeed/vanilla-{{ vanilla_env }}:latest"
+vanilla_dir: /var/www/vanilla
+vanilla_hostname: "{{ inventory_hostname }}"
+vanilla_lead_domain: "{{ inventory_hostname }}"
 
 local_storage_whoami_cache_key: whoamiCache
 auth_token_prefix: dummy_

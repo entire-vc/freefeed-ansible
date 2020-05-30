@@ -25,24 +25,20 @@
     - freefeed-common.conf
   register: nginx_conf
 
-- name: Pull latest react client image
+- name: Pull images
   become: yes
   docker_image:
-    name: "freefeed/freefeed-react-client-{{ react_client_branch }}:latest"
+    name: "{{ item }}"
     source: pull
     state: present
     force_source: yes
-  register: pull_react_client_image
+  loop:
+    - "{{ react_client_image }}"
+    - "{{ vanilla_image }}"
+    - "nginx:latest"
+  register: pull_images
 
-- name: Pull latest nginx image
-  become: yes
-  docker_image:
-    name: "nginx:latest"
-    source: pull
-    state: present
-  register: pull_nginx_image
-
-- name: Delete nginx and react-client containers
+- name: Delete containers
   become: yes
   docker_container:
     name: "{{ item }}"
@@ -51,13 +47,22 @@
   loop:
     - nginx
     - freefeed-react-client
-  when: pull_react_client_image.changed or pull_nginx_image.changed or nginx_conf.changed
+    - vanilla
+  when: pull_images.changed or nginx_conf.changed
 
 - name: Create freefeed-react-client container
   become: yes
   docker_container:
     name: freefeed-react-client
-    image: "freefeed/freefeed-react-client-{{ react_client_branch }}:latest"
+    image: "{{ react_client_image }}"
+    command: echo
+    state: present
+
+- name: Create vanilla container
+  become: yes
+  docker_container:
+    name: vanilla
+    image: "{{ vanilla_image }}"
     command: echo
     state: present
 
@@ -66,7 +71,9 @@
   docker_container:
     name: nginx
     image: nginx:latest
-    volumes_from: freefeed-react-client
+    volumes_from:
+      - freefeed-react-client
+      - vanilla
     published_ports:
       - 8080:80
     volumes:
