@@ -75,11 +75,13 @@
       - "/etc/freefeed/local-{{ freefeed_env }}.json:/server/config/local-{{ freefeed_env }}.json:ro"
       - /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro
       - /var/log/freefeed-server:/server/log
+      - /root/.aws:/root/.aws:ro
     env:
       NODE_ENV: production
       MONITOR_PREFIX: "{{ monitor_prefix }}"
       NODE_CONFIG_ENV: "{{ freefeed_env }}"
       FRFS_PORT: "3000"
+      AWS_SDK_LOAD_CONFIG: 'true'
       #DEBUG: '*,-babel*'
     networks:
       - name: freefeed

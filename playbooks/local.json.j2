@@ -13,13 +13,13 @@
   "sentryDsn": "{{ sentry_dsn }}",
   "host": "https://{{ react_client_hostname }}",
   "media": {
-    "url": "https://{{ pepyatka_media_hostname }}/",
+    "url": "https://{{ freefeed_media_hostname }}/",
     "storage": {
       "type": "s3",
       "rootDir": "/var/pepyatka-files/",
-      "accessKeyId": null,
-      "secretAccessKey": null,
-      "bucket": "{{ pepyatka_s3_bucket }}"
+      "accessKeyId": "{{ aws_access_key | default(None) }}",
+      "secretAccessKey": "{{ aws_secret_key | default(None) }}",
+      "bucket": "{{ freefeed_s3_bucket }}"
     }
   },
   "attachments": {

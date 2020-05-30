@@ -41,7 +41,7 @@ http {
     upstream freefeed_server {
       ip_hash;
 {% for container in server_containers %}
-      server {{ container }}:{{ 2999 + loop.index }};
+      server {{ container }}:3000;
 {% endfor %}
     }
 
@@ -76,7 +76,7 @@ http {
        }
        add_header Access-Control-Allow-Origin '*' always;
        add_header Access-Control-Allow-Methods 'GET,HEAD' always;
-       resolver 169.254.169.253 valid=30s;
+       #resolver 169.254.169.253 valid=30s;
        proxy_pass https://{{ freefeed_s3_bucket }}.s3.amazonaws.com;
      }
    }
