@@ -1,3 +1,4 @@
 ---
 
 freefeed_server_instances: "{{ ansible_processor_vcpus }}"
+freefeed_log_dir: /var/log/freefeed-server

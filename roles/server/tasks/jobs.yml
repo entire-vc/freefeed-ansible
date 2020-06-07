@@ -1,0 +1,61 @@
+- name: Cron job for docker cleanup
+  become: yes
+  cron:
+    name: Docker cleanup
+    cron_file: docker-gc
+    user: root
+    job: /usr/bin/docker system prune --all --volumes --force
+    special_time: weekly
+    state: present
+
+- name: Deploy freefeed-job script
+  become: yes
+  template:
+    src: freefeed-job.j2
+    dest: /usr/local/bin/freefeed-job
+    mode: 0755
+
+- name: Cron job for daily stats
+  become: yes
+  cron:
+    name: FreeFeed daily stats
+    cron_file: freefeed-daily-stats
+    user: root
+    job: /usr/local/bin/freefeed-job count-daily-stats.js
+    minute: '5'
+    hour: '0'
+    state: present
+
+- name: Cron job for db maintenance
+  become: yes
+  cron:
+    name: FreeFeed DB maintenance
+    cron_file: freefeed-db-maintenance
+    user: root
+    job: /usr/local/bin/freefeed-job db_maintenance.js
+    minute: '15'
+    hour: '0'
+    state: present
+
+- name: Cron job for notification emails
+  become: yes
+  cron:
+    name: FreeFeed notification emails
+    cron_file: freefeed-notification-emails
+    user: root
+    job: /usr/local/bin/freefeed-job notification_emails.js
+    minute: '19'
+    hour: '45'
+    state: present
+
+- name: Cron job for bestof emails
+  become: yes
+  cron:
+    name: FreeFeed bestof emails
+    cron_file: freefeed-bestof-emails
+    user: root
+    job: /usr/local/bin/freefeed-job bestof_emails.js
+    minute: '04'
+    hour: '40'
+    state: present
+

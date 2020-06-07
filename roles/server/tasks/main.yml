@@ -17,15 +17,6 @@
     - "banlist.txt"
   when: freefeed_fetch_config_overrides_from_s3
 
-- name: Pull docker image
-  become: yes
-  docker_image:
-    name: "freefeed/freefeed-server:latest"
-    source: pull
-    state: present
-    force_source: yes
-  register: pull_docker_image
-
 - name: Start redis container
   become: yes
   docker_container:
@@ -48,7 +39,6 @@
       - /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro
     env:
       NODE_ENV: production
-      MONITOR_PREFIX: "{{ monitor_prefix }}"
       NODE_CONFIG_ENV: "{{ freefeed_env }}"
     networks:
       - name: freefeed
@@ -57,7 +47,7 @@
 - name: Ensure directory for logs
   become: yes
   file:
-    path: /var/log/freefeed-server
+    path: "{{ freefeed_log_dir }}"
     state: directory
 
 - name: Start server containers
@@ -74,7 +64,7 @@
     volumes:
       - "/etc/freefeed/local-{{ freefeed_env }}.json:/server/config/local-{{ freefeed_env }}.json:ro"
       - /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro
-      - /var/log/freefeed-server:/server/log
+      - "{{ freefeed_log_dir }}:/server/log"
       - /root/.aws:/root/.aws:ro
     env:
       NODE_ENV: production
@@ -105,3 +95,6 @@
   delay: 1
   with_sequence: count="{{ freefeed_server_instances }}"
 
+- include: jobs.yml
+  tags:
+    - freefeed-maintenance
