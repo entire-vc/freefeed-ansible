@@ -1,38 +1,39 @@
 ---
 
-freefeed_hostname: uriel.freefeed.net
+freefeed_hostname: freefeed.net
 freefeed_media_hostname: media.freefeed.net
-freefeed_server_branch: stable
-freefeed_env: uriel
-freefeed_ansible_branch: development
+freefeed_server_branch: release
+freefeed_server_version: 'freefeed_release_1.78.4'
+freefeed_env: release
+freefeed_ansible_branch: freefeed
 freefeed_s3_bucket: freefeed-media
 freefeed_storage_type: s3
-freefeed_deploy_inventory: stable
-vanilla_enabled: false
+freefeed_deploy_inventory: uriel
 react_client_enabled: true
-react_client_branch: stable
-react_client_hostname: uriel.freefeed.net
+react_client_env: release
+react_client_version: 'freefeed_release_1.80.0'
+react_client_branch: release
+react_client_hostname: freefeed.net
+vanilla_env: release
+vanilla_hostname: m.freefeed.net
+vanilla_lead_domain: FreeFeed
 
 auth_token_prefix: micropeppa_
 
 # gateway on freefeed docker network
 postgres_host: 172.18.0.1
-postgres_pass: prodfeed
 postgres_port: 5432
 postgres_user: prodfeed
 postgres_dbname: prodfeed
 
-public_sentry_dsn: 'https://c0d1b60991264cc4b56a1398db012900@sentry.io/79081'
+new_relic_app_name: "FreeFeed Production"
+public_sentry_dsn: 'https://abdac1f2db2d45efaa9142062fe14bd8@sentry.io/75960'
+monitor_prefix: freefeed
 freefeed_external_auth_providers_enabled: true
-new_relic_app_name: "FreeFeed Uriel"
-monitor_prefix: uriel
+reg_limit_form_iframe_src: 'https://docs.google.com/forms/d/e/1FAIpQLSeup04O9-SgnerDJoz0njIeD4gaiGf-Rt9oLUmib_RYErYjmQ/viewform?embedded=true'
 freefeed_fetch_config_overrides_from_s3: true
 redis_host: redis
-freefeed_server_instances: 2
+freefeed_server_instances: 6
 freefeed_frontend_scheme: http
-
-vanilla_env: unstable
-vanilla_hostname: nanopeppa.freefeed.net
-vanilla_lead_domain: micropeppa
 
 ansible_python_interpreter: /usr/bin/python3

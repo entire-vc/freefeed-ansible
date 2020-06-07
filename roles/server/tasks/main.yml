@@ -17,7 +17,7 @@
     - "banlist.txt"
   when: freefeed_fetch_config_overrides_from_s3
 
-- name: Pull latest docker image
+- name: Pull docker image
   become: yes
   docker_image:
     name: "freefeed/freefeed-server:latest"
@@ -40,7 +40,7 @@
   become: yes
   docker_container:
     name: "freefeed-db-migration"
-    image: "freefeed/freefeed-server:latest"
+    image: "freefeed/freefeed-server:{{ freefeed_server_version }}"
     command: "./node_modules/.bin/knex migrate:latest"
     detach: false
     volumes:
@@ -64,7 +64,7 @@
   become: yes
   docker_container:
     name: "freefeed-server-{{ item }}"
-    image: "freefeed/freefeed-server:latest"
+    image: "freefeed/freefeed-server:{{ freefeed_server_version }}"
     command: "yarn start"
     init: yes
     published_ports:
