@@ -55,7 +55,7 @@
     cron_file: freefeed-bestof-emails
     user: root
     job: /usr/local/bin/freefeed-job bestof_emails.js
-    minute: '04'
-    hour: '40'
+    minute: '40'
+    hour: '4'
     state: present
 
