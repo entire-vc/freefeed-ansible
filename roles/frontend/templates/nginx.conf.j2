@@ -26,6 +26,13 @@ http {
 
     index   index.html index.htm;
 
+    upstream freefeed_server {
+      ip_hash;
+{% for container in server_containers %}
+      server {{ container }}:3000;
+{% endfor %}
+    }
+
 {% if freefeed_s3_bucket != "" %}
    server {
      server_name {{ freefeed_media_hostname }};
@@ -101,3 +108,4 @@ http {
    }
 {% endif %}
 }
+
