@@ -1,9 +1,6 @@
-user  {{ nginx_user }};
-worker_processes  {{ ansible_processor_vcpus }};
+worker_processes 1;
 
 error_log  /var/log/nginx/error.log;
-#error_log  /var/log/nginx/error.log  notice;
-#error_log  /var/log/nginx/error.log  info;
 pid        /run/nginx.pid;
 
 events {
@@ -16,11 +13,6 @@ http {
     charset       utf-8;
     client_max_body_size {{ nginx_client_max_body_size }};
 
-    {% if nginx_load_balancer_source is defined %}
-    real_ip_header X-Forwarded-For;
-    set_real_ip_from {{ nginx_load_balancer_source }};
-    {% endif %}
-
     log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for" '
@@ -29,37 +21,10 @@ http {
     access_log  /var/log/nginx/access.log  main;
 
     sendfile        on;
-    #tcp_nopush     on;
 
-    #keepalive_timeout  0;
     keepalive_timeout  65;
 
-    #gzip  on;
-
     index   index.html index.htm;
-
-    upstream freefeed_server {
-      ip_hash;
-{% for container in server_containers %}
-      server {{ container }}:3000;
-{% endfor %}
-    }
-
-    server {
-      listen 81;
-      server_name localhost;
-
-      access_log off;
-      allow 127.0.0.1;
-      {% if nginx_load_balancer_source is defined %}
-      allow {{ nginx_load_balancer_source }};
-      {% endif %}
-      deny all;
-
-      location /nginx_status {
-        stub_status on;
-      }
-    }
 
 {% if freefeed_s3_bucket != "" %}
    server {
@@ -76,7 +41,6 @@ http {
        }
        add_header Access-Control-Allow-Origin '*' always;
        add_header Access-Control-Allow-Methods 'GET,HEAD' always;
-       #resolver 169.254.169.253 valid=30s;
        proxy_pass https://{{ freefeed_s3_bucket }}.s3.amazonaws.com;
      }
    }
