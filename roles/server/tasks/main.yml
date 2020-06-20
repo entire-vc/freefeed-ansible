@@ -69,6 +69,7 @@
     env:
       NODE_ENV: production
       MONITOR_PREFIX: "{{ monitor_prefix }}"
+      DATADOG_HOST: '172.18.0.1'
       NODE_CONFIG_ENV: "{{ freefeed_env }}"
       FRFS_PORT: "3000"
       AWS_SDK_LOAD_CONFIG: 'true'

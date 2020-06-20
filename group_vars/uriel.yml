@@ -3,7 +3,7 @@
 freefeed_hostname: freefeed.net
 freefeed_media_hostname: media.freefeed.net
 freefeed_server_branch: release
-freefeed_server_version: 'freefeed_release_1.78.4'
+freefeed_server_version: 'freefeed_release_1.81.0'
 freefeed_env: release
 freefeed_ansible_branch: freefeed
 freefeed_s3_bucket: freefeed-media
