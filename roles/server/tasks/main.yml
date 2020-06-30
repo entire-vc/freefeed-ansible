@@ -85,6 +85,8 @@
     state: started
     restart_policy: on-failure
   with_sequence: count="{{ freefeed_server_instances }}"
+  loop_control:
+    pause: 5
 
 - name: "Wait for FreeFeed server to come up"
   uri:
