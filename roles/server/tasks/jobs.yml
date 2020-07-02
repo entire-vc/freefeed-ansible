@@ -44,8 +44,8 @@
     cron_file: freefeed-notification-emails
     user: root
     job: /usr/local/bin/freefeed-job notification_emails.js
-    minute: '19'
-    hour: '45'
+    minute: '45'
+    hour: '19'
     state: present
 
 - name: Cron job for bestof emails
