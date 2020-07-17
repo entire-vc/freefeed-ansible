@@ -97,6 +97,9 @@
   retries: 5
   delay: 1
   with_sequence: count="{{ freefeed_server_instances }}"
+  check_mode: no
+  tags:
+    - server-status
 
 - include: jobs.yml
   tags:

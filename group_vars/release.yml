@@ -8,17 +8,13 @@ freefeed_env: release
 freefeed_ansible_branch: freefeed
 freefeed_s3_bucket: freefeed-media
 freefeed_storage_type: s3
-freefeed_deploy_inventory: uriel
 react_client_enabled: true
-react_client_env: release
 react_client_version: 'freefeed_release_1.80.0'
-react_client_branch: release
 react_client_hostname: freefeed.net
-vanilla_env: release
 vanilla_hostname: m.freefeed.net
 vanilla_lead_domain: FreeFeed
 
-auth_token_prefix: micropeppa_
+auth_token_prefix: freefeedBETA_
 
 # gateway on freefeed docker network
 postgres_host: 172.18.0.1
