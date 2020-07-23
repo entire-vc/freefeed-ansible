@@ -4,10 +4,10 @@ candy.freefeed.net
 [redis:children]
 target
 
-[pepyatka:children]
+[server:children]
 target
 
-[pepyatka-frontend:children]
+[frontend:children]
 target
 
 [stable:children]

@@ -33,26 +33,6 @@ http {
 {% endfor %}
     }
 
-{% if freefeed_s3_bucket != "" %}
-   server {
-     server_name {{ freefeed_media_hostname }};
-     location = / {
-       return {{ freefeed_frontend_scheme }}://{{ react_client_hostname }}/;
-     }
-     location / {
-       access_log off;
-       log_not_found off;
-       expires max;
-       if ($request_method !~ ^(GET|HEAD)$ ) {
-         return 405;
-       }
-       add_header Access-Control-Allow-Origin '*' always;
-       add_header Access-Control-Allow-Methods 'GET,HEAD' always;
-       proxy_pass https://{{ freefeed_s3_bucket }}.s3.amazonaws.com;
-     }
-   }
-{% endif %}
-
    server {
      listen 80;
      server_name {{ react_client_hostname }};

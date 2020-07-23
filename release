@@ -1,5 +1,5 @@
 [target]
-vonnegut.freefeed.net
+freefeed.net
 
 [redis:children]
 target
@@ -10,8 +10,8 @@ target
 [frontend:children]
 target
 
-[vonnegut:children]
+[release:children]
 target
 
-[vonnegut_secrets:children]
+[release_secrets:children]
 target

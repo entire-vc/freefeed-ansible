@@ -53,12 +53,12 @@
 - name: Start server containers
   become: yes
   docker_container:
-    name: "freefeed-server-{{ item }}"
+    name: "freefeed-server-{{ freefeed_env }}-{{ ansible_loop.index }}"
     image: "freefeed/freefeed-server:{{ freefeed_server_version }}"
     command: "yarn start"
     init: yes
     published_ports:
-      - "{{ 2999 + item|int }}:3000"
+      - "{{ item }}:3000"
     links:
       - redis:redis
     volumes:
@@ -77,30 +77,32 @@
     networks:
       - name: freefeed
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost/v2/server-info"]
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/v2/server-info"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 15s
     state: started
     restart_policy: on-failure
-  with_sequence: count="{{ freefeed_server_instances }}"
+  loop: "{{ range(freefeed_base_port, freefeed_base_port+freefeed_server_instances, 1) | list }}"
   loop_control:
     pause: 5
+    extended: yes
 
 - name: "Wait for FreeFeed server to come up"
   uri:
-    url: "http://localhost:{{ 2999 + item|int }}/v2/server-info"
+    url: "http://localhost:{{ item }}/v2/server-info"
     status_code: 200
   register: result
   until: result.status == 200
   retries: 5
   delay: 1
-  with_sequence: count="{{ freefeed_server_instances }}"
+  loop: "{{ range(freefeed_base_port, freefeed_base_port+freefeed_server_instances-1, 1) | list }}"
   check_mode: no
   tags:
     - server-status
 
 - include: jobs.yml
+  when: freefeed_jobs_enabled
   tags:
     - freefeed-maintenance
