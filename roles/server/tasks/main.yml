@@ -20,7 +20,7 @@
 - name: Start redis container
   become: yes
   docker_container:
-    name: redis
+    name: "redis-{{ freefeed_env }}"
     image: "redis:latest"
     state: started
     restart_policy: on-failure

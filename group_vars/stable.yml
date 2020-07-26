@@ -23,12 +23,12 @@ postgres_port: 5432
 postgres_user: stagefeed
 postgres_dbname: stagefeed
 
-new_relic_app_name: "FreeFeed Production"
+new_relic_app_name: "FreeFeed stable"
 public_sentry_dsn: 'https://c0d1b60991264cc4b56a1398db012900@sentry.io/79081'
 monitor_prefix: candy
 freefeed_external_auth_providers_enabled: true
 freefeed_fetch_config_overrides_from_s3: true
-redis_host: redis
+redis_host: "redis-{{ freefeed_env }}"
 freefeed_server_instances: 1
 freefeed_frontend_scheme: http
 

@@ -28,7 +28,7 @@ monitor_prefix: freefeed
 freefeed_external_auth_providers_enabled: true
 reg_limit_form_iframe_src: 'https://docs.google.com/forms/d/e/1FAIpQLSeup04O9-SgnerDJoz0njIeD4gaiGf-Rt9oLUmib_RYErYjmQ/viewform?embedded=true'
 freefeed_fetch_config_overrides_from_s3: true
-redis_host: redis
+redis_host: "redis-{{ freefeed_env }}"
 freefeed_server_instances: 6
 freefeed_frontend_scheme: http
 
