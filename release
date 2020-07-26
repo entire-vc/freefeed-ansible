@@ -1,5 +1,5 @@
 [target]
-candy.freefeed.net
+freefeed.net
 
 [redis:children]
 target
@@ -10,8 +10,8 @@ target
 [frontend:children]
 target
 
-[stable:children]
+[release:children]
 target
 
-[stable_secrets:children]
+[release_secrets:children]
 target

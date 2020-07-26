@@ -1,4 +1,0 @@
----
-
-- name: Install openssh-server
-  yum: name="openssh-server" state=present

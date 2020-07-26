@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+docker run -t \
+       -v /etc/freefeed/local-{{ freefeed_env }}.json:/server/config/local-{{ freefeed_env }}.json:ro \
+       -v /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro \
+       -e NODE_ENV=production \
+       -e NODE_CONFIG_ENV={{ freefeed_env }} \
+       --network freefeed \
+       freefeed/freefeed-server:{{ freefeed_server_version }} \
+       node_modules/.bin/babel-node --extensions ".js,.jsx,.ts" "bin/${1}"

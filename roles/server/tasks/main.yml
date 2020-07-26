@@ -1,0 +1,108 @@
+- name: Ensure /etc/freefeed
+  become: yes
+  file:
+    path: /etc/freefeed
+    state: directory
+
+- name: Get config files
+  become: yes
+  aws_s3:
+    bucket: freefeed-config
+    object: "server/{{ item }}"
+    dest: "/etc/freefeed/{{ item }}"
+    mode: get
+    overwrite: different
+  loop:
+    - "local-{{ freefeed_env }}.json"
+    - "banlist.txt"
+  when: freefeed_fetch_config_overrides_from_s3
+
+- name: Start redis container
+  become: yes
+  docker_container:
+    name: "redis-{{ freefeed_env }}"
+    image: "redis:latest"
+    state: started
+    restart_policy: on-failure
+    networks:
+      - name: freefeed
+
+- name: Run DB migrations
+  become: yes
+  docker_container:
+    name: "freefeed-db-migration"
+    image: "freefeed/freefeed-server:{{ freefeed_server_version }}"
+    command: "./node_modules/.bin/knex migrate:latest"
+    detach: false
+    volumes:
+      - "/etc/freefeed/local-{{ freefeed_env }}.json:/server/config/local-{{ freefeed_env }}.json:ro"
+      - /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro
+    env:
+      NODE_ENV: production
+      NODE_CONFIG_ENV: "{{ freefeed_env }}"
+    networks:
+      - name: freefeed
+    state: started
+
+- name: Ensure directory for logs
+  become: yes
+  file:
+    path: "{{ freefeed_log_dir }}"
+    state: directory
+
+- name: Start server containers
+  become: yes
+  docker_container:
+    name: "freefeed-server-{{ freefeed_env }}-{{ ansible_loop.index }}"
+    image: "freefeed/freefeed-server:{{ freefeed_server_version }}"
+    command: "yarn start"
+    init: yes
+    published_ports:
+      - "{{ item }}:3000"
+    links:
+      - redis:redis
+    volumes:
+      - "/etc/freefeed/local-{{ freefeed_env }}.json:/server/config/local-{{ freefeed_env }}.json:ro"
+      - /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro
+      - "{{ freefeed_log_dir }}:/server/log"
+      - /root/.aws:/root/.aws:ro
+    env:
+      NODE_ENV: production
+      MONITOR_PREFIX: "{{ monitor_prefix }}"
+      DATADOG_HOST: '172.18.0.1'
+      NODE_CONFIG_ENV: "{{ freefeed_env }}"
+      FRFS_PORT: "3000"
+      AWS_SDK_LOAD_CONFIG: 'true'
+      #DEBUG: '*,-babel*'
+    networks:
+      - name: freefeed
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/v2/server-info"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    state: started
+    restart_policy: on-failure
+  loop: "{{ range(freefeed_base_port, freefeed_base_port+freefeed_server_instances, 1) | list }}"
+  loop_control:
+    pause: 5
+    extended: yes
+
+- name: "Wait for FreeFeed server to come up"
+  uri:
+    url: "http://localhost:{{ item }}/v2/server-info"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 5
+  delay: 1
+  loop: "{{ range(freefeed_base_port, freefeed_base_port+freefeed_server_instances-1, 1) | list }}"
+  check_mode: no
+  tags:
+    - server-status
+
+- include: jobs.yml
+  when: freefeed_jobs_enabled
+  tags:
+    - freefeed-maintenance
