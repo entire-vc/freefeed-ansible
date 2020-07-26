@@ -30,7 +30,7 @@
 - name: Run DB migrations
   become: yes
   docker_container:
-    name: "freefeed-db-migration"
+    name: "freefeed-db-migration-{{ freefeed_env }}"
     image: "freefeed/freefeed-server:{{ freefeed_server_version }}"
     command: "./node_modules/.bin/knex migrate:latest"
     detach: false

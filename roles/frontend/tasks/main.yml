@@ -19,7 +19,7 @@
 - name: Check which env is active
   become: yes
   docker_container_info:
-    name: nginx-blue
+    name: "nginx-{{ freefeed_env }}-blue"
   register: result
 
 - set_fact:
