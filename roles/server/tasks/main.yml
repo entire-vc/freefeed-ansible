@@ -59,8 +59,6 @@
     init: yes
     published_ports:
       - "{{ item }}:3000"
-    links:
-      - redis:redis
     volumes:
       - "/etc/freefeed/local-{{ freefeed_env }}.json:/server/config/local-{{ freefeed_env }}.json:ro"
       - /etc/freefeed/banlist.txt:/etc/freefeed/banlist.txt:ro
@@ -97,7 +95,7 @@
   until: result.status == 200
   retries: 5
   delay: 1
-  loop: "{{ range(freefeed_base_port, freefeed_base_port+freefeed_server_instances-1, 1) | list }}"
+  loop: "{{ range(freefeed_base_port, freefeed_base_port+freefeed_server_instances, 1) | list }}"
   check_mode: no
   tags:
     - server-status
