@@ -50,6 +50,10 @@
     path: "{{ freefeed_log_dir }}"
     state: directory
 
+- name: Logrotate config for server logs
+  become: yes
+  template: src=logrotate.j2 dest="/etc/logrotate.d/freefeed-server-{{ freefeed_env }}"
+
 - name: Start server containers
   become: yes
   docker_container:
@@ -73,7 +77,7 @@
     networks:
       - name: freefeed
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:3000/v2/server-info"]
+      test: ["CMD", "curl", "-s", "--fail", "http://localhost:3000/v2/server-info"]
       interval: 30s
       timeout: 10s
       retries: 3
