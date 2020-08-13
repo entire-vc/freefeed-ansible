@@ -4,18 +4,11 @@
     path: /etc/freefeed
     state: directory
 
-- name: Get config files
+- name: Render local-{{ freefeed_env }}.json
   become: yes
-  aws_s3:
-    bucket: freefeed-config
-    object: "server/{{ item }}"
-    dest: "/etc/freefeed/{{ item }}"
-    mode: get
-    overwrite: different
-  loop:
-    - "local-{{ freefeed_env }}.json"
-    - "banlist.txt"
-  when: freefeed_fetch_config_overrides_from_s3
+  template:
+    src: local.json.j2
+    dest: "/etc/freefeed/local-{{ freefeed_env }}.json"
 
 - name: Start redis container
   become: yes

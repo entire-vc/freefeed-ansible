@@ -6,15 +6,11 @@
     path: "/etc/freefeed/{{ freefeed_env }}"
     state: directory
 
-- name: Get config files
+- name: Render /etc/freefeed/{{ freefeed_env }}/config.json
   become: yes
-  aws_s3:
-    bucket: freefeed-config
-    object: "client/{{ freefeed_env }}.json"
+  template:
+    src: config.json.j2
     dest: "/etc/freefeed/{{ freefeed_env }}/config.json"
-    mode: get
-    overwrite: different
-  when: freefeed_fetch_config_overrides_from_s3
 
 - name: Check which env is active
   become: yes
