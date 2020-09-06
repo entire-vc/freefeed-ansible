@@ -22,6 +22,7 @@ postgres_host: 172.18.0.1
 postgres_port: 5432
 postgres_user: stagefeed
 postgres_dbname: stagefeed
+postgres_textsearch_config: public.freefeed_fts
 
 new_relic_app_name: "FreeFeed stable"
 public_sentry_dsn: 'https://c0d1b60991264cc4b56a1398db012900@sentry.io/79081'
