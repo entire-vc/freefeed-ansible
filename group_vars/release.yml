@@ -21,7 +21,7 @@ postgres_host: 172.18.0.1
 postgres_port: 5432
 postgres_user: prodfeed
 postgres_dbname: prodfeed
-postgres_textsearch_config: pg_catalog.russian
+postgres_textsearch_config: public.freefeed_fts
 
 new_relic_app_name: "FreeFeed Production"
 public_sentry_dsn: 'https://abdac1f2db2d45efaa9142062fe14bd8@sentry.io/75960'
