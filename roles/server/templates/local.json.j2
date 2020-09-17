@@ -59,6 +59,9 @@
       "user": "{{ postgres_user }}",
       "password": "{{ postgres_pass }}"
     },
+    "pool": {
+      "idleTimeoutMillis": 3600000
+    },
     "textSearchConfigName": "{{ postgres_textsearch_config }}"
   },
   "performance": {
