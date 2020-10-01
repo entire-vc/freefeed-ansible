@@ -45,7 +45,7 @@
     user: root
     job: /usr/local/bin/freefeed-job notification_emails.js
     minute: '45'
-    hour: '19'
+    hour: '21'
     state: present
 
 - name: Cron job for bestof emails
@@ -56,6 +56,6 @@
     user: root
     job: /usr/local/bin/freefeed-job bestof_emails.js
     minute: '40'
-    hour: '4'
+    hour: '6'
     state: present
 
