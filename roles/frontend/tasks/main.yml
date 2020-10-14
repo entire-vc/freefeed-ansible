@@ -67,6 +67,7 @@
     image: "{{ react_client_image }}"
     command: echo
     state: present
+    pull: yes
 
 - name: Create vanilla container
   become: yes
@@ -75,6 +76,7 @@
     image: "{{ vanilla_image }}"
     command: echo
     state: present
+    pull: yes
 
 - name: Start nginx container
   become: yes
