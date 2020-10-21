@@ -39,6 +39,9 @@ freefeed_external_auth_google_client_id: clientid.apps.googleusercontent.com
 freefeed_external_auth_google_client_secret: secret
 freefeed_external_auth_facebook_client_id: clientid
 freefeed_external_auth_facebook_client_secret: secret
+
+company_title: 'Company Ltd.'
+company_address: 'Red Square 1, Moscow, Russia'
 ```
 
 Vault uses password stored in a file configured in `ansible.cfg` via `vault_password_file` variable. Password is stored in clear text.
