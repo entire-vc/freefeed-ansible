@@ -73,17 +73,13 @@
   },
   "externalAuthProviders": [
     {
-      "template": "google",
-      "params": {
-        "clientId": "{{ freefeed_external_auth_google_client_id }}",
-        "clientSecret": "{{ freefeed_external_auth_google_client_secret }}"
-      }
-    },
-    {
-      "template": "facebook",
-      "params": {
-        "clientId": "{{ freefeed_external_auth_facebook_client_id }}",
-        "clientSecret": "{{ freefeed_external_auth_facebook_client_secret }}"
+      "id":      'profile.entire.vc',
+      "title":   'Entire VC Profile',
+      "adapter": 'oauth2',
+      "params":  {
+        "clientId":      "{{ profile_vc_client_id }}",
+        "clientSecret":  "{{ profile_vc_client_secret }}",
+        "discoveryRoot": "https://profile.entire.vc/auth/realms/master"
       }
     }
   ],
