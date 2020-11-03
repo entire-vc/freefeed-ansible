@@ -1,36 +1,34 @@
 ---
 
-freefeed_hostname: freefeed.net
-freefeed_media_hostname: media.freefeed.net
+freefeed_hostname: entire.vc
+freefeed_media_hostname: media.entire.vc
 freefeed_env: release
-freefeed_s3_bucket: freefeed-media
+freefeed_s3_endpoint: ams3.digitaloceanspaces.com
+freefeed_s3_bucket: entire-vc-media
 freefeed_storage_type: s3
 freefeed_base_port: 3000
 freefeed_jobs_enabled: true
 react_client_enabled: true
-react_client_hostname: freefeed.net
+react_client_hostname: entire.vc
 client_blue_port: 8080
 client_green_port: 8081
-vanilla_hostname: m.freefeed.net
-vanilla_lead_domain: FreeFeed
 
-auth_token_prefix: freefeedBETA_
+auth_token_prefix: entirevc
 
 # gateway on freefeed docker network
 postgres_host: 172.18.0.1
 postgres_port: 5432
-postgres_user: prodfeed
-postgres_dbname: prodfeed
-postgres_textsearch_config: public.freefeed_fts
+postgres_user: freefeed
+postgres_dbname: freefeed
+postgres_textsearch_config: english
 
-new_relic_app_name: "FreeFeed Production"
-public_sentry_dsn: 'https://abdac1f2db2d45efaa9142062fe14bd8@sentry.io/75960'
-monitor_prefix: freefeed
+monitor_prefix: entire-vc
 freefeed_external_auth_providers_enabled: true
-reg_limit_form_iframe_src: 'https://docs.google.com/forms/d/e/1FAIpQLSeup04O9-SgnerDJoz0njIeD4gaiGf-Rt9oLUmib_RYErYjmQ/viewform?embedded=true'
-freefeed_fetch_config_overrides_from_s3: true
 redis_host: "redis-{{ freefeed_env }}"
-freefeed_server_instances: 6
+freefeed_server_instances: 2
 freefeed_frontend_scheme: http
 
 ansible_python_interpreter: /usr/bin/python3
+
+freefeed_server_version: latest
+react_client_version: latest

@@ -1,5 +1,5 @@
 [target]
-freefeed.net
+entire.vc
 
 [redis:children]
 target
@@ -15,3 +15,6 @@ target
 
 [release_secrets:children]
 target
+
+[target:vars]
+ansible_user=root

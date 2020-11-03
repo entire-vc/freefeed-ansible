@@ -1,9 +1,8 @@
 ---
 
-auth_cookie_domain: freefeed.net
+auth_cookie_domain: entire.vc
 local_storage_whoami_cache_key: whoamiCache
 
 nginx_client_max_body_size: '50M'
 
-recaptcha_enabled: true
-recaptcha_client_secret: '6LdChhITAAAAAGzgvUPPCbg0cxJzcxFc5vlBs9u5'
+recaptcha_enabled: false
