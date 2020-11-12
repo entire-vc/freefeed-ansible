@@ -1,7 +1,8 @@
 {
   "secret": "{{ freefeed_secret }}",
   "origin": "*",
-  "serviceName": "Venture Crue",
+  "serviceName": "Venture Crew",
+  "siteTitle": "Entire VC",
   "monitorPrefix": "{{ monitor_prefix }}",
   "trustProxyHeaders": true,
 {% if recaptcha_server_secret is defined %}
@@ -40,9 +41,9 @@
   },
   "mailer": {
     "useSMTPTransport": true,
-    "fromName": "Venture Crue",
+    "fromName": "Venture Crew",
     "fromEmail": "in@venture-crew.com",
-    "resetPasswordMailSubject": "Venture Crue password reset",
+    "resetPasswordMailSubject": "Venture Crew password reset",
     "options": {
       "host": "{{ freefeed_mailer_smtp_host }}",
       "port": {{ freefeed_mailer_smtp_port }},
